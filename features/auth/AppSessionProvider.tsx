@@ -1,0 +1,118 @@
+import type { Session } from '@supabase/supabase-js';
+import * as Notifications from 'expo-notifications';
+import { useRouter } from 'expo-router';
+import { Platform } from 'react-native';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
+
+import { signOut as signOutApi } from '@/features/auth/auth-api';
+import { hasCompletedOnboarding } from '@/features/onboarding/preferences-api';
+import { debugLog } from '@/lib/debug-log';
+import { cancelDailyReminder } from '@/lib/notifications';
+import { supabase } from '@/lib/supabase';
+
+type AppSessionContextValue = {
+  session: Session | null;
+  authLoading: boolean;
+  onboardingComplete: boolean | null;
+  refreshAppState: () => Promise<void>;
+  signOut: () => Promise<void>;
+};
+
+const AppSessionContext = createContext<AppSessionContextValue | null>(null);
+
+export function AppSessionProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const [session, setSession] = useState<Session | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [onboardingComplete, setOnboardingComplete] = useState<boolean | null>(null);
+
+  const refreshOnboarding = useCallback(async (userId: string) => {
+    const complete = await hasCompletedOnboarding(userId);
+    setOnboardingComplete(complete);
+  }, []);
+
+  const refreshAppState = useCallback(async () => {
+    // #region agent log
+    debugLog('B', 'AppSessionProvider:refreshAppState', 'getSession start', {
+      platform: Platform.OS,
+    });
+    // #endregion
+    const {
+      data: { session: current },
+    } = await supabase.auth.getSession();
+    // #region agent log
+    debugLog('B', 'AppSessionProvider:refreshAppState', 'getSession done', {
+      hasSession: !!current,
+    });
+    // #endregion
+    setSession(current);
+    if (current?.user) {
+      await refreshOnboarding(current.user.id);
+    } else {
+      setOnboardingComplete(null);
+    }
+  }, [refreshOnboarding]);
+
+  const signOut = useCallback(async () => {
+    await cancelDailyReminder();
+    await signOutApi();
+    setSession(null);
+    setOnboardingComplete(null);
+    router.replace('/(auth)/login');
+  }, [router]);
+
+  useEffect(() => {
+    refreshAppState().finally(() => setAuthLoading(false));
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
+      setSession(nextSession);
+      if (nextSession?.user) {
+        await refreshOnboarding(nextSession.user.id);
+      } else {
+        setOnboardingComplete(null);
+        await cancelDailyReminder();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [refreshAppState, refreshOnboarding]);
+
+  useEffect(() => {
+    if (Platform.OS === 'web') return;
+    const sub = Notifications.addNotificationResponseReceivedListener(() => {
+      router.push('/(tabs)');
+    });
+    return () => sub.remove();
+  }, [router]);
+
+  const value = useMemo(
+    () => ({
+      session,
+      authLoading,
+      onboardingComplete,
+      refreshAppState,
+      signOut,
+    }),
+    [session, authLoading, onboardingComplete, refreshAppState, signOut],
+  );
+
+  return <AppSessionContext.Provider value={value}>{children}</AppSessionContext.Provider>;
+}
+
+export function useAppSession(): AppSessionContextValue {
+  const ctx = useContext(AppSessionContext);
+  if (!ctx) {
+    throw new Error('useAppSession must be used within AppSessionProvider');
+  }
+  return ctx;
+}
