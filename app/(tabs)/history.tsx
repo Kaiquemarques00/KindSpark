@@ -1,10 +1,5 @@
-import { Screen } from '@/components/Screen';
+import { HistoryScreen } from '@/features/history';
 
-export default function HistoryScreen() {
-  return (
-    <Screen
-      title="History"
-      subtitle="Recent actions you've done or skipped."
-    />
-  );
+export default function HistoryTab() {
+  return <HistoryScreen />;
 }

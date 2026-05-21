@@ -40,3 +40,18 @@ export async function saveNotificationPreferences(
   if (error) throw error;
   return data;
 }
+
+export async function updateNotificationPreferences(
+  userId: string,
+  updates: { notification_time?: string; enabled?: boolean },
+): Promise<NotificationPreferences> {
+  const { data, error } = await supabase
+    .from('notification_preferences')
+    .update(updates)
+    .eq('user_id', userId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}

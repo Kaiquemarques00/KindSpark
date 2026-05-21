@@ -109,6 +109,10 @@ export type Database = {
         Args: { p_suggestion_date: string };
         Returns: DailySuggestionRow[];
       };
+      log_action_done: {
+        Args: { p_action_id: string; p_action_date: string };
+        Returns: UserActionLog;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

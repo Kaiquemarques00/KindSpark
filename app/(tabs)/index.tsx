@@ -1,14 +1,5 @@
-import { Screen } from '@/components/Screen';
+import { TodayScreen } from '@/features/today';
 
-export default function TodayScreen() {
-  return (
-    <Screen
-      title="Today's kindness"
-      subtitle="Your daily suggestion will appear here. (T-030)"
-      links={[
-        { href: '/(onboarding)/notification-time', label: 'Onboarding' },
-        { href: '/(auth)/login', label: 'Auth' },
-      ]}
-    />
-  );
+export default function TodayTab() {
+  return <TodayScreen />;
 }

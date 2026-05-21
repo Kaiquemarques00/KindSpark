@@ -13,7 +13,10 @@ import {
 } from 'react';
 
 import { signOut as signOutApi } from '@/features/auth/auth-api';
+import { useOfflineSync } from '@/features/offline';
 import { hasCompletedOnboarding } from '@/features/onboarding/preferences-api';
+import { trackAppInstalledOnce, trackEvent } from '@/lib/analytics';
+import { clearMutationQueue, clearSuggestionCache } from '@/lib/offline';
 import { cancelDailyReminder } from '@/lib/notifications';
 import { supabase } from '@/lib/supabase';
 
@@ -52,13 +55,18 @@ export function AppSessionProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     await cancelDailyReminder();
+    await clearMutationQueue();
+    await clearSuggestionCache();
     await signOutApi();
     setSession(null);
     setOnboardingComplete(null);
     router.replace('/(auth)/login');
   }, [router]);
 
+  useOfflineSync(Boolean(session && onboardingComplete));
+
   useEffect(() => {
+    void trackAppInstalledOnce();
     refreshAppState().finally(() => setAuthLoading(false));
 
     const {
@@ -79,6 +87,7 @@ export function AppSessionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (Platform.OS === 'web') return;
     const sub = Notifications.addNotificationResponseReceivedListener(() => {
+      trackEvent('notification_opened');
       router.push('/(tabs)');
     });
     return () => sub.remove();

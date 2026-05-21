@@ -24,6 +24,7 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=<anon key from supabase status>
 | `20260520110000_rls_policies.sql` | T-013 — RLS |
 | `20260520120000_seed_actions.sql` | T-012 — 50 actions |
 | `20260520130000_rpc_daily_suggestion.sql` | T-014 — RPC |
+| `20260521100000_one_done_per_day.sql` | T-034 — one `done` per day + `log_action_done` |
 
 ## Verify after reset
 

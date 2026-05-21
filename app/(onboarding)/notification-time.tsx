@@ -14,6 +14,7 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useAppSession } from '@/features/auth';
 import { saveNotificationPreferences } from '@/features/onboarding';
+import { trackEvent } from '@/lib/analytics';
 import {
   formatNotificationTime,
   requestNotificationPermissions,
@@ -54,6 +55,8 @@ export default function NotificationTimeScreen() {
       }
 
       await scheduleDailyReminder(notificationTime, true);
+      trackEvent('onboarding_completed', { notification_time: notificationTime });
+      trackEvent('notification_enabled', { notification_time: notificationTime });
       await refreshAppState();
       router.replace('/(tabs)');
     } catch (e) {

@@ -4,8 +4,8 @@ Atualizar este arquivo ao fim de cada sessão relevante de implementação ou de
 
 ## Fase TLC
 
-- **Atual:** Execute — fase E2 (auth e onboarding) concluída.
-- **Próximo:** E3 — loop Today (T-030–T-034).
+- **Atual:** Execute — fase E5 (offline, settings, polimento) concluída.
+- **Próximo:** Release v0.1 — validar critérios de aceite em `spec.md`, medição cold start em `docs/PERFORMANCE.md`, preview EAS.
 
 ## Decisões abertas (resolver na primeira sprint de Execute)
 
@@ -36,3 +36,6 @@ Atualizar este arquivo ao fim de cada sessão relevante de implementação ou de
 - E0 bootstrap: Expo SDK 54 + Router, rotas `(auth)` / `(onboarding)` / `(tabs)`, client Supabase, CI lint/typecheck.
 - E1 database: migrations em `supabase/migrations/` (tabelas, RLS, 50 ações seed, RPC `get_or_create_daily_suggestion` / `refresh_daily_suggestion`). Timezone do dia: **local do dispositivo** (`toLocalDateString` no client). Tabela `user_daily_suggestion_seen` evita repetir ação no mesmo dia ao trocar sugestão.
 - E2 auth/onboarding: email/senha (login, registro, logout), `AppSessionProvider` + guards em `index` e layouts, onboarding salva `notification_preferences`, `expo-notifications` agenda lembrete diário local, deep link da notificação → `/(tabs)`.
+- E3 loop Today: tela `TodayScreen` carrega/cria sugestão (`get_or_create_daily_suggestion`), "Another idea" (`refresh_daily_suggestion`), "I did it" / "Skip" (`log_action_done` idempotente + insert skip), índice único parcial um `done` por dia (T-034).
+- E4 progresso/histórico: streak calculado no client a partir de `done` nos últimos 90 dias (`computeStreak`, timezone local); aba Progress com milestones 3/7/14/30 (mensagem única por dia via AsyncStorage); aba History com lista recente (ação, data, status).
+- E5 offline/settings: cache de sugestão + fila done/skip (`lib/offline/`, NetInfo + sync ao reconectar); Settings com horário e toggle de notificação; analytics mínimo (`lib/analytics/track.ts`); README + `docs/PERFORMANCE.md` para onboarding de dev e medição cold start.

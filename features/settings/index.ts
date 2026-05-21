@@ -1,1 +1,2 @@
-/** Settings — implemented in T-051 */
+export { SettingsScreen } from './SettingsScreen';
+export { useSettings } from './useSettings';
