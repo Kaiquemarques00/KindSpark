@@ -14,7 +14,6 @@ import {
 
 import { signOut as signOutApi } from '@/features/auth/auth-api';
 import { hasCompletedOnboarding } from '@/features/onboarding/preferences-api';
-import { debugLog } from '@/lib/debug-log';
 import { cancelDailyReminder } from '@/lib/notifications';
 import { supabase } from '@/lib/supabase';
 
@@ -40,19 +39,9 @@ export function AppSessionProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const refreshAppState = useCallback(async () => {
-    // #region agent log
-    debugLog('B', 'AppSessionProvider:refreshAppState', 'getSession start', {
-      platform: Platform.OS,
-    });
-    // #endregion
     const {
       data: { session: current },
     } = await supabase.auth.getSession();
-    // #region agent log
-    debugLog('B', 'AppSessionProvider:refreshAppState', 'getSession done', {
-      hasSession: !!current,
-    });
-    // #endregion
     setSession(current);
     if (current?.user) {
       await refreshOnboarding(current.user.id);

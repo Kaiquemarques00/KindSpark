@@ -10,31 +10,8 @@ export async function signInWithEmail(email: string, password: string): Promise<
 }
 
 export async function signUpWithEmail(email: string, password: string): Promise<AuthResult> {
-  // #region agent log
-  const { debugLog } = await import('@/lib/debug-log');
-  debugLog('D', 'features/auth/auth-api.ts:signUp', 'signUp start', {
-    emailLen: email.length,
-  });
-  // #endregion
-  try {
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    // #region agent log
-    debugLog('D', 'features/auth/auth-api.ts:signUp', 'signUp result', {
-      hasSession: !!data.session,
-      errorMessage: error?.message ?? null,
-      errorStatus: error?.status ?? null,
-    });
-    // #endregion
-    return { session: data.session, error };
-  } catch (e) {
-    // #region agent log
-    debugLog('D', 'features/auth/auth-api.ts:signUp', 'signUp threw', {
-      errorName: e instanceof Error ? e.name : 'unknown',
-      errorMessage: e instanceof Error ? e.message : String(e),
-    });
-    // #endregion
-    throw e;
-  }
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  return { session: data.session, error };
 }
 
 export async function signOut(): Promise<{ error: AuthError | null }> {
