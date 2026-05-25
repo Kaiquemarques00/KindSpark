@@ -72,14 +72,14 @@ Alinhado a `kindspark.md`:
 
 ## Critérios de aceite (MVP "feito")
 
-- [ ] Usuário novo: conta → escolhe horário → vê primeira sugestão em < 2 min.
-- [ ] "I did it" persiste e aparece no histórico com data e status.
-- [ ] "Skip" persiste sem bloquear uso nem quebrar streak por si só.
-- [ ] Trocar sugestão mostra outra ação do catálogo (sem repetir a mesma no mesmo dia, se catálogo permitir).
-- [ ] Streak incrementa em dias consecutivos com `done`; zera após dia sem `done`.
-- [ ] Push dispara no horário configurado (teste em dev/build preview).
-- [ ] Offline: sugestão em cache visível; done/skip sincroniza ao voltar online.
-- [ ] Usuário A não vê dados do usuário B (RLS).
+- [x] Usuário novo: conta → escolhe horário → vê primeira sugestão em < 2 min.
+- [x] "I did it" persiste e aparece no histórico com data e status.
+- [x] "Skip" persiste sem bloquear uso nem quebrar streak por si só.
+- [x] Trocar sugestão mostra outra ação do catálogo (sem repetir a mesma no mesmo dia, se catálogo permitir).
+- [x] Streak incrementa em dias consecutivos com `done`; zera após dia sem `done`.
+- [x] Push dispara no horário configurado (teste em dev/build preview).
+- [x] Offline: sugestão em cache visível; done/skip sincroniza ao voltar online.
+- [x] Usuário A não vê dados do usuário B (RLS).
 
 ## Fora desta spec
 

@@ -1,12 +1,23 @@
-import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+
+import {
+  AndroidImportance,
+  cancelAllScheduledNotificationsAsync,
+  getPermissionsAsync,
+  PermissionStatus,
+  requestPermissionsAsync,
+  scheduleNotificationAsync,
+  SchedulableTriggerInputTypes,
+  setNotificationChannelAsync,
+  setNotificationHandler,
+} from './expo-local';
 
 export const DAILY_REMINDER_BODY = 'Your good action for today is waiting ✨';
 const ANDROID_CHANNEL_ID = 'daily-reminder';
 
 function ensureNotificationHandler(): void {
   if (Platform.OS === 'web') return;
-  Notifications.setNotificationHandler({
+  setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
       shouldPlaySound: true,
@@ -40,24 +51,24 @@ export function notificationTimeToDate(time: string): Date {
 
 export async function ensureAndroidChannel(): Promise<void> {
   if (Platform.OS !== 'android') return;
-  await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
+  await setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
     name: 'Daily reminders',
-    importance: Notifications.AndroidImportance.DEFAULT,
+    importance: AndroidImportance.DEFAULT,
   });
 }
 
 export async function requestNotificationPermissions(): Promise<boolean> {
-  const { status: existing } = await Notifications.getPermissionsAsync();
-  if (existing === Notifications.PermissionStatus.GRANTED) {
+  const { status: existing } = await getPermissionsAsync();
+  if (existing === PermissionStatus.GRANTED) {
     return true;
   }
-  const { status } = await Notifications.requestPermissionsAsync();
-  return status === Notifications.PermissionStatus.GRANTED;
+  const { status } = await requestPermissionsAsync();
+  return status === PermissionStatus.GRANTED;
 }
 
 export async function cancelDailyReminder(): Promise<void> {
   if (Platform.OS === 'web') return;
-  await Notifications.cancelAllScheduledNotificationsAsync();
+  await cancelAllScheduledNotificationsAsync();
 }
 
 export async function scheduleDailyReminder(
@@ -74,7 +85,7 @@ export async function scheduleDailyReminder(
   await ensureAndroidChannel();
   const { hour, minute } = parseNotificationTime(notificationTime);
 
-  await Notifications.scheduleNotificationAsync({
+  await scheduleNotificationAsync({
     content: {
       title: 'KindSpark',
       body: DAILY_REMINDER_BODY,
@@ -82,7 +93,7 @@ export async function scheduleDailyReminder(
       ...(Platform.OS === 'android' ? { channelId: ANDROID_CHANNEL_ID } : {}),
     },
     trigger: {
-      type: Notifications.SchedulableTriggerInputTypes.DAILY,
+      type: SchedulableTriggerInputTypes.DAILY,
       hour,
       minute,
     },

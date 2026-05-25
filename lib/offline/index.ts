@@ -4,6 +4,7 @@ export {
   enqueueMutation,
   getPendingDoneForDate,
   hasPendingDoneForDate,
+  hasPendingSkipForAction,
   getMutationQueue,
   clearMutationQueue,
 } from './mutation-queue';

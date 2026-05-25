@@ -21,6 +21,27 @@ export async function fetchDoneLogForDate(
   return { data, error: null };
 }
 
+export async function fetchSkippedLogForAction(
+  actionId: string,
+  actionDate: string = toLocalDateString(),
+): Promise<{ data: UserActionLog | null; error: Error | null }> {
+  const { data, error } = await supabase
+    .from('user_action_logs')
+    .select('*')
+    .eq('action_id', actionId)
+    .eq('action_date', actionDate)
+    .eq('status', 'skipped')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data, error: null };
+}
+
 /** RF-003 / T-034: idempotent — one `done` per calendar day */
 export async function logActionDone(
   actionId: string,
@@ -29,6 +50,15 @@ export async function logActionDone(
   const { data: existing } = await fetchDoneLogForDate(actionDate);
   if (existing) {
     return { data: existing, error: null, alreadyDone: true };
+  }
+
+  const { data: skipped } = await fetchSkippedLogForAction(actionId, actionDate);
+  if (skipped) {
+    return {
+      data: null,
+      error: new Error('You skipped this idea. Try another idea first.'),
+      alreadyDone: false,
+    };
   }
 
   const {

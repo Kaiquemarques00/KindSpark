@@ -21,7 +21,7 @@ export function TodayScreen() {
     todayDone,
     busy,
     error,
-    skipAck,
+    currentSuggestionSkipped,
     load,
     handleDone,
     handleSkip,
@@ -39,6 +39,7 @@ export function TodayScreen() {
 
   const loading = busy === 'load' && !suggestion;
   const actionDisabled = busy !== null && busy !== 'load';
+  const showPrimaryActions = !currentSuggestionSkipped;
 
   return (
     <ScrollView
@@ -80,9 +81,9 @@ export function TodayScreen() {
         <Text style={[styles.empty, { color: colors.muted }]}>No suggestion available right now.</Text>
       ) : null}
 
-      {skipAck && !isCompleted ? (
+      {currentSuggestionSkipped && !isCompleted ? (
         <Text style={[styles.skipHint, { color: colors.muted }]}>
-          Skipped — you can try another idea or mark one as done when you&apos;re ready.
+          Skipped this one — pick another idea when you&apos;re ready.
         </Text>
       ) : null}
 
@@ -90,41 +91,48 @@ export function TodayScreen() {
 
       {!loading && !isCompleted && suggestion ? (
         <View style={styles.actions}>
-          <Pressable
-            style={({ pressed }) => [
-              styles.primaryButton,
-              { backgroundColor: colors.tint },
-              (pressed || actionDisabled) && styles.buttonPressed,
-            ]}
-            onPress={handleDone}
-            disabled={actionDisabled}
-          >
-            {busy === 'done' ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.primaryButtonText}>I did it</Text>
-            )}
-          </Pressable>
+          {showPrimaryActions ? (
+            <>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.primaryButton,
+                  { backgroundColor: colors.tint },
+                  (pressed || actionDisabled) && styles.buttonPressed,
+                ]}
+                onPress={handleDone}
+                disabled={actionDisabled}
+              >
+                {busy === 'done' ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.primaryButtonText}>I did it</Text>
+                )}
+              </Pressable>
+
+              <Pressable
+                style={({ pressed }) => [
+                  styles.secondaryButton,
+                  { borderColor: colors.tint },
+                  (pressed || actionDisabled) && styles.buttonPressed,
+                ]}
+                onPress={handleSkip}
+                disabled={actionDisabled}
+              >
+                {busy === 'skip' ? (
+                  <ActivityIndicator color={colors.tint} />
+                ) : (
+                  <Text style={[styles.secondaryButtonText, { color: colors.tint }]}>Skip</Text>
+                )}
+              </Pressable>
+            </>
+          ) : null}
 
           <Pressable
             style={({ pressed }) => [
-              styles.secondaryButton,
-              { borderColor: colors.tint },
-              (pressed || actionDisabled) && styles.buttonPressed,
-            ]}
-            onPress={handleSkip}
-            disabled={actionDisabled}
-          >
-            {busy === 'skip' ? (
-              <ActivityIndicator color={colors.tint} />
-            ) : (
-              <Text style={[styles.secondaryButtonText, { color: colors.tint }]}>Skip</Text>
-            )}
-          </Pressable>
-
-          <Pressable
-            style={({ pressed }) => [
-              styles.linkButton,
+              showPrimaryActions ? styles.linkButton : styles.secondaryButton,
+              showPrimaryActions
+                ? undefined
+                : { borderColor: colors.tint },
               (pressed || actionDisabled) && styles.buttonPressed,
             ]}
             onPress={handleRefresh}
@@ -133,7 +141,14 @@ export function TodayScreen() {
             {busy === 'refresh' ? (
               <ActivityIndicator color={colors.tint} />
             ) : (
-              <Text style={[styles.linkButtonText, { color: colors.tint }]}>Another idea</Text>
+              <Text
+                style={[
+                  showPrimaryActions ? styles.linkButtonText : styles.secondaryButtonText,
+                  { color: colors.tint },
+                ]}
+              >
+                Another idea
+              </Text>
             )}
           </Pressable>
         </View>

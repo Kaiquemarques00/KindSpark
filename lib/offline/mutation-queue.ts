@@ -71,3 +71,13 @@ export async function hasPendingDoneForDate(actionDate: string): Promise<boolean
   const queue = await getMutationQueue();
   return queue.some((m) => m.type === 'done' && m.actionDate === actionDate);
 }
+
+export async function hasPendingSkipForAction(
+  actionId: string,
+  actionDate: string,
+): Promise<boolean> {
+  const queue = await getMutationQueue();
+  return queue.some(
+    (m) => m.type === 'skipped' && m.actionId === actionId && m.actionDate === actionDate,
+  );
+}

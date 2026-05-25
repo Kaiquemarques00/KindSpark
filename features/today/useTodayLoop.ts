@@ -6,12 +6,14 @@ import {
   flushMutationQueue,
   getCachedSuggestion,
   getPendingDoneForDate,
+  hasPendingSkipForAction,
   isNetworkError,
   isOnline,
   setCachedSuggestion,
 } from '@/lib/offline';
 import {
   fetchDoneLogForDate,
+  fetchSkippedLogForAction,
   getOrCreateDailySuggestion,
   logActionDone,
   logActionSkipped,
@@ -23,15 +25,42 @@ import {
 
 export type TodayBusyAction = 'load' | 'done' | 'skip' | 'refresh' | null;
 
+async function resolveSuggestionSkipped(
+  actionId: string,
+  actionDate: string,
+  checkServer: boolean,
+): Promise<boolean> {
+  if (await hasPendingSkipForAction(actionId, actionDate)) {
+    return true;
+  }
+  if (!checkServer) {
+    return false;
+  }
+  const { data } = await fetchSkippedLogForAction(actionId, actionDate);
+  return data !== null;
+}
+
 export function useTodayLoop() {
   const today = toLocalDateString();
   const [suggestion, setSuggestion] = useState<DailySuggestion | null>(null);
   const [todayDone, setTodayDone] = useState<UserActionLog | null>(null);
   const [busy, setBusy] = useState<TodayBusyAction>('load');
   const [error, setError] = useState<string | null>(null);
-  const [skipAck, setSkipAck] = useState(false);
+  const [currentSuggestionSkipped, setCurrentSuggestionSkipped] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const [pendingSync, setPendingSync] = useState(false);
+
+  const syncSkippedState = useCallback(
+    async (active: DailySuggestion | null, done: UserActionLog | null, checkServer: boolean) => {
+      if (!active || done) {
+        setCurrentSuggestionSkipped(false);
+        return;
+      }
+      const skipped = await resolveSuggestionSkipped(active.action_id, today, checkServer);
+      setCurrentSuggestionSkipped(skipped);
+    },
+    [today],
+  );
 
   const loadFromCache = useCallback(async () => {
     const cached = await getCachedSuggestion(today);
@@ -42,21 +71,25 @@ export function useTodayLoop() {
       );
       setSuggestion(null);
       setTodayDone(pendingDone);
+      setCurrentSuggestionSkipped(false);
       setIsOffline(true);
       setPendingSync(pendingDone !== null);
       return false;
     }
     setSuggestion(cached);
     setTodayDone(pendingDone);
+    const skipped = await resolveSuggestionSkipped(cached.action_id, today, false);
+    setCurrentSuggestionSkipped(skipped);
     setIsOffline(true);
-    setPendingSync(pendingDone !== null);
+    setPendingSync(
+      pendingDone !== null || (await hasPendingSkipForAction(cached.action_id, today)),
+    );
     return true;
-  }, [today]);
+  }, [today, syncSkippedState]);
 
   const load = useCallback(async () => {
     setBusy('load');
     setError(null);
-    setSkipAck(false);
     setIsOffline(false);
     setPendingSync(false);
 
@@ -99,6 +132,7 @@ export function useTodayLoop() {
 
     setSuggestion(suggestionResult.data);
     setTodayDone(doneResult.data);
+    await syncSkippedState(suggestionResult.data, doneResult.data, true);
 
     if (suggestionResult.data) {
       trackEvent('daily_suggestion_shown', {
@@ -108,10 +142,10 @@ export function useTodayLoop() {
     }
 
     setBusy(null);
-  }, [today, loadFromCache]);
+  }, [today, loadFromCache, syncSkippedState]);
 
   const handleDone = useCallback(async () => {
-    if (!suggestion || todayDone) return;
+    if (!suggestion || todayDone || currentSuggestionSkipped) return;
 
     setBusy('done');
     setError(null);
@@ -159,16 +193,17 @@ export function useTodayLoop() {
     }
 
     setTodayDone(data);
+    setCurrentSuggestionSkipped(false);
     trackEvent('action_done', { action_date: today, already_done: alreadyDone });
     setBusy(null);
 
     if (alreadyDone) {
       setError('You already logged kindness for today.');
     }
-  }, [suggestion, today, todayDone]);
+  }, [suggestion, today, todayDone, currentSuggestionSkipped]);
 
   const handleSkip = useCallback(async () => {
-    if (!suggestion || todayDone) return;
+    if (!suggestion || todayDone || currentSuggestionSkipped) return;
 
     setBusy('skip');
     setError(null);
@@ -181,7 +216,7 @@ export function useTodayLoop() {
         actionId: suggestion.action_id,
         actionDate: today,
       });
-      setSkipAck(true);
+      setCurrentSuggestionSkipped(true);
       setPendingSync(true);
       setIsOffline(true);
       trackEvent('action_skipped', { offline: true, action_date: today });
@@ -198,7 +233,7 @@ export function useTodayLoop() {
           actionId: suggestion.action_id,
           actionDate: today,
         });
-        setSkipAck(true);
+        setCurrentSuggestionSkipped(true);
         setPendingSync(true);
         setIsOffline(true);
         trackEvent('action_skipped', { offline: true, action_date: today });
@@ -211,9 +246,9 @@ export function useTodayLoop() {
     }
 
     trackEvent('action_skipped', { action_date: today });
-    setSkipAck(true);
+    setCurrentSuggestionSkipped(true);
     setBusy(null);
-  }, [suggestion, today, todayDone]);
+  }, [suggestion, today, todayDone, currentSuggestionSkipped]);
 
   const handleRefresh = useCallback(async () => {
     if (todayDone) return;
@@ -226,7 +261,6 @@ export function useTodayLoop() {
 
     setBusy('refresh');
     setError(null);
-    setSkipAck(false);
 
     const { data, error: refreshError } = await refreshDailySuggestion(today);
 
@@ -245,9 +279,10 @@ export function useTodayLoop() {
     }
 
     setSuggestion(data);
+    await syncSkippedState(data, todayDone, true);
     trackEvent('suggestion_refreshed', { suggestion_date: today });
     setBusy(null);
-  }, [today, todayDone]);
+  }, [today, todayDone, syncSkippedState]);
 
   return {
     today,
@@ -255,7 +290,7 @@ export function useTodayLoop() {
     todayDone,
     busy,
     error,
-    skipAck,
+    currentSuggestionSkipped,
     isOffline,
     pendingSync,
     load,

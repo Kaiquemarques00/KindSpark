@@ -1,5 +1,4 @@
 import type { Session } from '@supabase/supabase-js';
-import * as Notifications from 'expo-notifications';
 import { useRouter } from 'expo-router';
 import { Platform } from 'react-native';
 import {
@@ -17,6 +16,7 @@ import { useOfflineSync } from '@/features/offline';
 import { hasCompletedOnboarding } from '@/features/onboarding/preferences-api';
 import { trackAppInstalledOnce, trackEvent } from '@/lib/analytics';
 import { clearMutationQueue, clearSuggestionCache } from '@/lib/offline';
+import { addNotificationResponseReceivedListener } from '@/lib/notifications/expo-local';
 import { cancelDailyReminder } from '@/lib/notifications';
 import { supabase } from '@/lib/supabase';
 
@@ -86,7 +86,7 @@ export function AppSessionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (Platform.OS === 'web') return;
-    const sub = Notifications.addNotificationResponseReceivedListener(() => {
+    const sub = addNotificationResponseReceivedListener(() => {
       trackEvent('notification_opened');
       router.push('/(tabs)');
     });

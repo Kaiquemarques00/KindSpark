@@ -3,6 +3,7 @@ export { getSupabaseConfig } from './env';
 export type { Action, ActionStatus, DailySuggestion, Database, UserActionLog } from './database.types';
 export {
   fetchDoneLogForDate,
+  fetchSkippedLogForAction,
   logActionDone,
   logActionSkipped,
 } from './action-logs';

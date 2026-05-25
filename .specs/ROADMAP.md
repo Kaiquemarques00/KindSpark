@@ -34,6 +34,12 @@
 - Testes em dispositivo físico (iOS + Android).
 - README: rodar local, build preview, variáveis de ambiente.
 
+## Feature em especificação — `redesign-ui`
+
+- Redesign visual completo das telas principais (onboarding 2 telas, Today, Progress, History, Settings).
+- Spec: `.specs/features/redesign-ui/spec.md` — fonte: `kindspark-design-system.md` + mockup.
+- Comportamento MVP preservado (RF-001…RF-007); apenas camada UI/UX.
+
 ## Pós v0.1 (backlog de produto)
 
 | Versão | Foco |
