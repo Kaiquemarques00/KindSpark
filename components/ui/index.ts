@@ -4,6 +4,7 @@ export { AdBannerShell } from '@/components/ui/AdBannerShell';
 export { AppText } from '@/components/ui/AppText';
 export { Button, type ButtonVariant } from '@/components/ui/Button';
 export { Card } from '@/components/ui/Card';
+export { CelebrationBurst } from '@/components/ui/CelebrationBurst';
 export { HistoryRow, type HistoryRowStatus } from '@/components/ui/HistoryRow';
 export { Illustration, type IllustrationSize } from '@/components/ui/Illustration';
 export { ListRow } from '@/components/ui/ListRow';

@@ -143,10 +143,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] ≤ 12 partículas, duração ≤ 500ms, `pointerEvents="none"`
-- [ ] Reduce motion → fade only, sem partículas
-- [ ] `pickCelebrationMessage` determinístico por date string
-- [ ] `npm run gate` passa
+- [x] ≤ 12 partículas, duração ≤ 500ms, `pointerEvents="none"`
+- [x] Reduce motion → fade only, sem partículas
+- [x] `pickCelebrationMessage` determinístico por date string
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
