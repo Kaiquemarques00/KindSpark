@@ -122,10 +122,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Retorna `{ streak, completedCount, loading, error }`
-- [ ] Falha parcial mantém campos disponíveis
-- [ ] Export via `features/completion/index.ts`
-- [ ] `npm run gate` passa
+- [x] Retorna `{ streak, completedCount, loading, error }`
+- [x] Falha parcial mantém campos disponíveis
+- [x] Export via `features/completion/index.ts`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
