@@ -15,3 +15,5 @@ export {
 export { fetchCurrentStreak, fetchDoneDates } from './streak';
 export { fetchActionHistory } from './action-history';
 export type { ActionHistoryEntry } from './action-history';
+export { fetchActionStats } from './action-stats';
+export type { ActionStats, ActionStatsPeriod } from './action-stats';

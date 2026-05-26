@@ -85,7 +85,7 @@ export function useTodayLoop() {
       pendingDone !== null || (await hasPendingSkipForAction(cached.action_id, today)),
     );
     return true;
-  }, [today, syncSkippedState]);
+  }, [today]);
 
   const load = useCallback(async () => {
     setBusy('load');

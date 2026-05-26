@@ -10,6 +10,7 @@ import {
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { AppText } from '@/components/ui/AppText';
+import { hitSlop44 } from '@/components/ui/a11y';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { duration } from '@/theme/motion';
 import { colors, gradient, radius, shadows } from '@/theme/tokens';
@@ -52,7 +53,9 @@ export function Button({
   };
 
   const handlePressOut = () => {
-    scale.value = withTiming(1, { duration: duration.fast });
+    if (!reduceMotion) {
+      scale.value = withTiming(1, { duration: duration.fast });
+    }
   };
 
   const content = loading ? (
@@ -61,13 +64,15 @@ export function Button({
       accessibilityLabel="Loading"
     />
   ) : (
-  <>
+    <>
       {icon ? (
         <Ionicons
           name={icon}
           size={18}
           color={variant === 'primary' ? colors.white : colors.ctaEnd}
           style={styles.icon}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
         />
       ) : null}
       <AppText
@@ -91,6 +96,7 @@ export function Button({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       disabled={isDisabled}
+      hitSlop={hitSlop44}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? label}
       accessibilityState={{ disabled: isDisabled, busy: loading }}
@@ -116,6 +122,10 @@ export function Button({
       )}
     </Pressable>
   );
+
+  if (reduceMotion) {
+    return pressable;
+  }
 
   return <Animated.View style={animatedStyle}>{pressable}</Animated.View>;
 }

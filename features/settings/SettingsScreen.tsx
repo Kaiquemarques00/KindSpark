@@ -1,26 +1,18 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import {
-  ActivityIndicator,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Switch, View } from 'react-native';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import { AppText, Button, ListRow, ScreenShell } from '@/components/ui';
+import { copy } from '@/constants/copy';
 import { useAppSession } from '@/features/auth';
 import { useSettings } from '@/features/settings/useSettings';
+import { colors, spacing } from '@/theme/tokens';
+
+const TAB_BAR_INSET = 96;
 
 export function SettingsScreen() {
   const { signOut } = useAppSession();
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
   const {
     time,
     setTime,
@@ -52,191 +44,121 @@ export function SettingsScreen() {
   };
 
   return (
-    <ScrollView
-      style={[styles.scroll, { backgroundColor: colors.background }]}
-      contentContainerStyle={styles.content}
+    <ScreenShell
+      scrollable
+      contentContainerStyle={[styles.content, { paddingBottom: TAB_BAR_INSET }]}
     >
-      <Text style={[styles.title, { color: colors.text }]}>Settings</Text>
+      <AppText variant="title">{copy.settings.title}</AppText>
 
       {busy ? (
-        <ActivityIndicator size="large" color={colors.tint} style={styles.loader} />
+        <ActivityIndicator size="large" color={colors.ctaEnd} style={styles.loader} />
       ) : null}
 
       {!busy ? (
         <>
-          <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>Daily reminder</Text>
-            <View style={styles.row}>
-              <Text style={[styles.rowLabel, { color: colors.text }]}>Notifications</Text>
+          <AppText variant="section">{copy.settings.dailyReminder}</AppText>
+
+          <ListRow
+            icon="notifications-outline"
+            label={copy.settings.notifications}
+            value={enabled ? copy.settings.on : copy.settings.off}
+            rightElement={
               <Switch
                 value={enabled}
                 onValueChange={setEnabled}
-                trackColor={{ false: '#ccc', true: colors.tint }}
+                trackColor={{ false: colors.textMuted, true: colors.ctaEnd }}
+                thumbColor={colors.card}
               />
-            </View>
+            }
+          />
 
-            {enabled ? (
-              <>
-                {Platform.OS === 'android' && (
-                  <Pressable
-                    style={[styles.timeButton, { borderColor: colors.tint }]}
-                    onPress={() => setShowPicker(true)}
-                  >
-                    <Text style={[styles.timeButtonText, { color: colors.tint }]}>
-                      {timeLabel}
-                    </Text>
-                  </Pressable>
-                )}
+          {enabled ? (
+            <>
+              <ListRow
+                icon="time-outline"
+                label={copy.settings.reminderTime}
+                value={timeLabel}
+                showChevron
+                onPress={Platform.OS === 'android' ? () => setShowPicker(true) : undefined}
+              />
+              {showPicker ? (
+                <DateTimePicker
+                  value={time}
+                  mode="time"
+                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  onChange={(_event, selected) => {
+                    if (Platform.OS === 'android') setShowPicker(false);
+                    if (selected) setTime(selected);
+                  }}
+                />
+              ) : null}
+            </>
+          ) : (
+            <AppText variant="secondary" color={colors.textMuted}>
+              {copy.settings.remindersOff}
+            </AppText>
+          )}
 
-                {showPicker && (
-                  <DateTimePicker
-                    value={time}
-                    mode="time"
-                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                    onChange={(_event, selected) => {
-                      if (Platform.OS === 'android') setShowPicker(false);
-                      if (selected) setTime(selected);
-                    }}
-                  />
-                )}
-
-                {Platform.OS === 'ios' ? (
-                  <Text style={[styles.hint, { color: colors.muted }]}>
-                    Reminder time: {timeLabel}
-                  </Text>
-                ) : null}
-              </>
-            ) : (
-              <Text style={[styles.hint, { color: colors.muted }]}>
-                Reminders are off. You can still open the app anytime.
-              </Text>
-            )}
+          <View style={styles.section}>
+            <ListRow icon="volume-medium-outline" label={copy.settings.sound} showChevron />
+            <ListRow icon="phone-portrait-outline" label={copy.settings.vibration} showChevron />
           </View>
 
-          <Pressable
-            style={({ pressed }) => [
-              styles.primaryButton,
-              { backgroundColor: colors.tint },
-              (pressed || saving) && styles.buttonPressed,
-            ]}
+          <View style={styles.section}>
+            <ListRow icon="shield-outline" label={copy.settings.privacy} showChevron />
+            <ListRow icon="document-text-outline" label={copy.settings.terms} showChevron />
+            <ListRow icon="information-circle-outline" label={copy.settings.about} showChevron />
+            <ListRow icon="star-outline" label={copy.settings.rateApp} showChevron />
+          </View>
+
+          <Button
+            label={copy.settings.saveChanges}
+            variant="secondary"
             onPress={save}
+            loading={saving}
             disabled={saving}
-          >
-            {saving ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.primaryButtonText}>Save changes</Text>
-            )}
-          </Pressable>
+          />
 
           {saved ? (
-            <Text style={[styles.saved, { color: colors.tint }]}>Settings saved.</Text>
+            <AppText variant="caption" color={colors.success} style={styles.centered}>
+              {copy.settings.saved}
+            </AppText>
           ) : null}
         </>
       ) : null}
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {error ? (
+        <AppText variant="caption" color={colors.warning} style={styles.centered}>
+          {error}
+        </AppText>
+      ) : null}
 
-      <Pressable
-        style={({ pressed }) => [
-          styles.secondaryButton,
-          { borderColor: colors.tint },
-          (pressed || signingOut) && styles.buttonPressed,
-        ]}
+      <Button
+        label={copy.settings.signOut}
+        variant="ghost"
         onPress={handleSignOut}
+        loading={signingOut}
         disabled={signingOut}
-      >
-        {signingOut ? (
-          <ActivityIndicator color={colors.tint} />
-        ) : (
-          <Text style={[styles.secondaryButtonText, { color: colors.tint }]}>Sign out</Text>
-        )}
-      </Pressable>
-    </ScrollView>
+        style={styles.signOut}
+      />
+    </ScreenShell>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-  },
   content: {
-    padding: 24,
-    paddingBottom: 40,
-    gap: 16,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 8,
+    gap: spacing[3],
   },
   loader: {
-    marginTop: 24,
+    marginVertical: spacing[4],
   },
   section: {
-    gap: 12,
-    marginTop: 8,
+    marginTop: spacing[2],
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  rowLabel: {
-    fontSize: 16,
-  },
-  timeButton: {
-    alignSelf: 'flex-start',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  timeButtonText: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  hint: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  primaryButton: {
-    borderRadius: 10,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  primaryButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    borderRadius: 10,
-    borderWidth: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  secondaryButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  buttonPressed: {
-    opacity: 0.85,
-  },
-  saved: {
-    fontSize: 14,
+  centered: {
     textAlign: 'center',
   },
-  error: {
-    color: '#C45C5C',
-    fontSize: 14,
-    textAlign: 'center',
+  signOut: {
+    marginTop: spacing[4],
   },
 });

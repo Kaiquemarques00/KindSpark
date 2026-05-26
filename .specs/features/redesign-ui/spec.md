@@ -5,6 +5,7 @@
 | Campo | Valor |
 |-------|--------|
 | **Feature** | `redesign-ui` |
+| **Status** | Done — gate + UAT manual (2026-05-25) |
 | **Tipo** | Large — redesign visual multi-tela |
 | **Fontes de verdade** | `kindspark-design-system.md`, mockup anexado (onboarding, Today, Progress, History, Settings) |
 | **Tom** | Acolhedor, minimalista, positivo (“gentle habit app”) |
@@ -18,13 +19,13 @@ O KindSpark hoje usa uma paleta fria (azul-acinzentada) e layout funcional sem a
 
 ## Goals
 
-- [ ] Tokens visuais centralizados (cores, tipografia, radius, sombras, spacing) conforme `kindspark-design-system.md`
-- [ ] Seis superfícies redesenhadas: Onboarding 1, Onboarding 2, Today, Progress, History, Settings
-- [ ] Bottom navigation e componentes compartilhados (botões, cards, badges, list rows) reutilizáveis
-- [ ] Paridade visual ≥ 90% com mockup nas telas em escopo (layout/ilustração; **copy sempre em inglês**)
-- [ ] Toda copy voltada ao usuário em **inglês**, conforme `kindspark-design-system.md` (não usar textos PT do mock)
-- [ ] Acessibilidade mantida: alvo de toque ≥ 44×44, contraste de texto, suporte a `reduce motion`
-- [ ] Zero regressão funcional nos fluxos RF-001…RF-007
+- [x] Tokens visuais centralizados (cores, tipografia, radius, sombras, spacing) conforme `kindspark-design-system.md`
+- [x] Seis superfícies redesenhadas: Onboarding 1, Onboarding 2, Today, Progress, History, Settings
+- [x] Bottom navigation e componentes compartilhados (botões, cards, badges, list rows) reutilizáveis
+- [x] Paridade visual ≥ 90% com mockup nas telas em escopo (layout/ilustração; **copy sempre em inglês**)
+- [x] Toda copy voltada ao usuário em **inglês**, conforme `kindspark-design-system.md` (não usar textos PT do mock)
+- [x] Acessibilidade mantida: alvo de toque ≥ 44×44, contraste de texto, suporte a `reduce motion`
+- [x] Zero regressão funcional nos fluxos RF-001…RF-007
 
 ## Out of Scope
 
@@ -254,61 +255,61 @@ O KindSpark hoje usa uma paleta fria (azul-acinzentada) e layout funcional sem a
 
 | ID | Descrição | Prioridade | Story | Status |
 |----|-----------|------------|-------|--------|
-| RUI-DS-01 | Tokens de cor alinhados ao design system | P0 | Fundação | Pending |
-| RUI-DS-02 | Tipografia Inter + escala | P0 | Fundação | Pending |
-| RUI-DS-03 | Radius, sombras e spacing scale | P0 | Fundação | Pending |
-| RUI-DS-04 | Motion durations + reduced motion | P0 | Fundação | Pending |
-| RUI-DS-05 | Screen padding + safe area | P0 | Fundação | Pending |
-| RUI-OB-01 | Layout Onboarding 1 (logo, subtítulo, ilustração, CTA) | P0 | Onboarding 1 | Pending |
-| RUI-OB-02 | CTA “Get Started” → Onboarding 2 | P0 | Onboarding 1 | Pending |
-| RUI-OB-03 | Sem header nativo pesado em OB-1 | P1 | Onboarding 1 | Pending |
-| RUI-OB-04 | Fallback ilustração OB-1 | P1 | Onboarding 1 | Pending |
-| RUI-OB-05 | Layout Onboarding 2 (copy, ilustração, paginação) | P0 | Onboarding 2 | Pending |
-| RUI-OB-06 | CTA “Continue” → fluxo funcional existente | P0 | Onboarding 2 | Pending |
-| RUI-OB-07 | Indicador de paginação 2 steps | P1 | Onboarding 2 | Pending |
-| RUI-OB-08 | Transição suave OB-1 ↔ OB-2 | P1 | Onboarding 2 | Pending |
-| RUI-TD-01 | Header saudação + streak badge | P0 | Today | Pending |
-| RUI-TD-02 | Action card split peach/white + ilustração | P0 | Today | Pending |
-| RUI-TD-03 | CTAs primário/secundário/terciário | P0 | Today | Pending |
-| RUI-TD-04 | Estados done/skipped/loading/offline | P0 | Today | Pending |
-| RUI-TD-05 | Tab Today ativa laranja | P1 | Today | Pending |
-| RUI-TD-06 | Hierarquia visual sem poluição | P1 | Today | Pending |
-| RUI-TD-07 | Preservar `useTodayLoop` sem mudança de API | P0 | Today | Pending |
-| RUI-TD-08 | Shell banner ad sutil (layout only) | P2 | Today | Pending |
-| RUI-PR-01 | Título “Your progress” | P0 | Progress | Pending |
-| RUI-PR-02 | Streak card peach (“Current streak”, “{n} days”) | P0 | Progress | Pending |
-| RUI-PR-03 | Tríade métricas (Completed / Skipped / Completion rate) | P0 | Progress | Pending |
-| RUI-PR-04 | Seção conquistas + badges 3/7/14/30 | P0 | Progress | Pending |
-| RUI-PR-05 | Estados locked/active/completed badges | P0 | Progress | Pending |
-| RUI-PR-06 | Milestone message UI | P1 | Progress | Pending |
-| RUI-PR-07 | Preservar `useProgress` | P0 | Progress | Pending |
-| RUI-HI-01 | Título “History” + lista cronológica | P0 | History | Pending |
-| RUI-HI-02 | Row: ícone, título, data relativa, status | P0 | History | Pending |
-| RUI-HI-03 | Distinção visual done vs skipped | P0 | History | Pending |
-| RUI-HI-04 | Empty state acolhedor | P1 | History | Pending |
-| RUI-HI-05 | Preservar `useHistory` | P0 | History | Pending |
-| RUI-ST-01 | Título “Settings” + list rows | P0 | Settings | Pending |
-| RUI-ST-02 | Rows Notifications / Reminder Time / Sound / Vibration | P0 | Settings | Pending |
-| RUI-ST-03 | Rows Privacy / Terms / About / Rate App | P1 | Settings | Pending |
-| RUI-COPY-01 | Toda copy de UI em inglês (`kindspark-design-system.md`) | P0 | Transversal | Pending |
-| RUI-ST-04 | Feedback save/error com cores semânticas | P1 | Settings | Pending |
-| RUI-ST-05 | Preservar `useSettings` | P0 | Settings | Pending |
-| RUI-ST-06 | Sign out discreto (ghost) | P1 | Settings | Pending |
-| RUI-NAV-01 | 4 tabs com labels e ícones corretos | P1 | Nav | Pending |
-| RUI-NAV-02 | Active/inactive tint laranja/muted | P1 | Nav | Pending |
-| RUI-NAV-03 | Tab bar rounded top + sombra soft | P2 | Nav | Pending |
-| RUI-NAV-04 | Animação troca de tab ~250ms | P2 | Nav | Pending |
-| RUI-CMP-01 | Button variants (4) | P1 | Components | Pending |
-| RUI-CMP-02 | Card variants (action, stats, achievement, history) | P1 | Components | Pending |
-| RUI-CMP-03 | Badge streak/achievement | P1 | Components | Pending |
-| RUI-CMP-04 | ListRow settings | P1 | Components | Pending |
-| RUI-AST-01 | Assets ilustração otimizados | P2 | Assets | Pending |
-| RUI-AST-02 | Reduced motion em assets animados | P2 | Assets | Pending |
-| RUI-A11Y-01 | Touch target ≥ 44×44 em CTAs e rows | P0 | Transversal | Pending |
-| RUI-A11Y-02 | Contraste texto primary/background ≥ WCAG AA | P0 | Transversal | Pending |
-| RUI-A11Y-03 | Labels accessibility para ícones-only | P1 | Transversal | Pending |
+| RUI-DS-01 | Tokens de cor alinhados ao design system | P0 | Fundação | Done |
+| RUI-DS-02 | Tipografia Inter + escala | P0 | Fundação | Done |
+| RUI-DS-03 | Radius, sombras e spacing scale | P0 | Fundação | Done |
+| RUI-DS-04 | Motion durations + reduced motion | P0 | Fundação | Done |
+| RUI-DS-05 | Screen padding + safe area | P0 | Fundação | Done |
+| RUI-OB-01 | Layout Onboarding 1 (logo, subtítulo, ilustração, CTA) | P0 | Onboarding 1 | Done |
+| RUI-OB-02 | CTA “Get Started” → Onboarding 2 | P0 | Onboarding 1 | Done |
+| RUI-OB-03 | Sem header nativo pesado em OB-1 | P1 | Onboarding 1 | Done |
+| RUI-OB-04 | Fallback ilustração OB-1 | P1 | Onboarding 1 | Done |
+| RUI-OB-05 | Layout Onboarding 2 (copy, ilustração, paginação) | P0 | Onboarding 2 | Done |
+| RUI-OB-06 | CTA “Continue” → fluxo funcional existente | P0 | Onboarding 2 | Done |
+| RUI-OB-07 | Indicador de paginação 2 steps | P1 | Onboarding 2 | Done |
+| RUI-OB-08 | Transição suave OB-1 ↔ OB-2 | P1 | Onboarding 2 | Done |
+| RUI-TD-01 | Header saudação + streak badge | P0 | Today | Done |
+| RUI-TD-02 | Action card split peach/white + ilustração | P0 | Today | Done |
+| RUI-TD-03 | CTAs primário/secundário/terciário | P0 | Today | Done |
+| RUI-TD-04 | Estados done/skipped/loading/offline | P0 | Today | Done |
+| RUI-TD-05 | Tab Today ativa laranja | P1 | Today | Done |
+| RUI-TD-06 | Hierarquia visual sem poluição | P1 | Today | Done |
+| RUI-TD-07 | Preservar `useTodayLoop` sem mudança de API | P0 | Today | Done |
+| RUI-TD-08 | Shell banner ad sutil (layout only) | P2 | Today | Done |
+| RUI-PR-01 | Título “Your progress” | P0 | Progress | Done |
+| RUI-PR-02 | Streak card peach (“Current streak”, “{n} days”) | P0 | Progress | Done |
+| RUI-PR-03 | Tríade métricas (Completed / Skipped / Completion rate) | P0 | Progress | Done |
+| RUI-PR-04 | Seção conquistas + badges 3/7/14/30 | P0 | Progress | Done |
+| RUI-PR-05 | Estados locked/active/completed badges | P0 | Progress | Done |
+| RUI-PR-06 | Milestone message UI | P1 | Progress | Done |
+| RUI-PR-07 | Preservar `useProgress` | P0 | Progress | Done |
+| RUI-HI-01 | Título “History” + lista cronológica | P0 | History | Done |
+| RUI-HI-02 | Row: ícone, título, data relativa, status | P0 | History | Done |
+| RUI-HI-03 | Distinção visual done vs skipped | P0 | History | Done |
+| RUI-HI-04 | Empty state acolhedor | P1 | History | Done |
+| RUI-HI-05 | Preservar `useHistory` | P0 | History | Done |
+| RUI-ST-01 | Título “Settings” + list rows | P0 | Settings | Done |
+| RUI-ST-02 | Rows Notifications / Reminder Time / Sound / Vibration | P0 | Settings | Done |
+| RUI-ST-03 | Rows Privacy / Terms / About / Rate App | P1 | Settings | Done |
+| RUI-COPY-01 | Toda copy de UI em inglês (`kindspark-design-system.md`) | P0 | Transversal | Done |
+| RUI-ST-04 | Feedback save/error com cores semânticas | P1 | Settings | Done |
+| RUI-ST-05 | Preservar `useSettings` | P0 | Settings | Done |
+| RUI-ST-06 | Sign out discreto (ghost) | P1 | Settings | Done |
+| RUI-NAV-01 | 4 tabs com labels e ícones corretos | P1 | Nav | Done |
+| RUI-NAV-02 | Active/inactive tint laranja/muted | P1 | Nav | Done |
+| RUI-NAV-03 | Tab bar rounded top + sombra soft | P2 | Nav | Done |
+| RUI-NAV-04 | Animação troca de tab ~250ms | P2 | Nav | Done |
+| RUI-CMP-01 | Button variants (4) | P1 | Components | Done |
+| RUI-CMP-02 | Card variants (action, stats, achievement, history) | P1 | Components | Done |
+| RUI-CMP-03 | Badge streak/achievement | P1 | Components | Done |
+| RUI-CMP-04 | ListRow settings | P1 | Components | Done |
+| RUI-AST-01 | Assets ilustração otimizados | P2 | Assets | Done |
+| RUI-AST-02 | Reduced motion em assets animados | P2 | Assets | Done |
+| RUI-A11Y-01 | Touch target ≥ 44×44 em CTAs e rows | P0 | Transversal | Done |
+| RUI-A11Y-02 | Contraste texto primary/background ≥ WCAG AA | P0 | Transversal | Done |
+| RUI-A11Y-03 | Labels accessibility para ícones-only | P1 | Transversal | Done |
 
-**Cobertura:** 48 requisitos | 0 mapeados em tasks | 48 pendentes
+**Cobertura:** 48 requisitos | 48 mapeados em `tasks.md` (RUI-T-001…071) | 48 Done
 
 ---
 
@@ -316,42 +317,42 @@ O KindSpark hoje usa uma paleta fria (azul-acinzentada) e layout funcional sem a
 
 ### Design system e transversal
 
-- [ ] **CA-DS-01**: Inspeção visual confirma cores primárias, background, peach, textos e gradiente CTA iguais à seção *Color Palette* de `kindspark-design-system.md`.
-- [ ] **CA-DS-02**: Nenhuma tela em escopo usa a paleta azul legada de `constants/Colors.ts` como tint principal.
-- [ ] **CA-A11Y-01**: Todos os botões e list rows passam alvo mínimo 44×44 em iOS e Android.
+- [x] **CA-DS-01**: Inspeção visual confirma cores primárias, background, peach, textos e gradiente CTA iguais à seção *Color Palette* de `kindspark-design-system.md`.
+- [x] **CA-DS-02**: Nenhuma tela em escopo usa a paleta azul legada de `constants/Colors.ts` como tint principal.
+- [x] **CA-A11Y-01**: Todos os botões e list rows passam alvo mínimo 44×44 em iOS e Android.
 
 ### Onboarding (2 telas)
 
-- [ ] **CA-OB-01**: Onboarding 1 corresponde ao mock em layout (logo, ilustração, CTA pill laranja) com copy EN: “Small actions can create big change.” / “Get Started”.
-- [ ] **CA-OB-02**: Onboarding 2 corresponde ao mock em layout (headline, ilustração, dots, “Continue”) com copy EN do design system.
-- [ ] **CA-OB-03**: Fluxo OB-1 → OB-2 → horário de notificação completa em < 2 min (RNF-003 preservado).
+- [x] **CA-OB-01**: Onboarding 1 corresponde ao mock em layout (logo, ilustração, CTA pill laranja) com copy EN: “Small actions can create big change.” / “Get Started”.
+- [x] **CA-OB-02**: Onboarding 2 corresponde ao mock em layout (headline, ilustração, dots, “Continue”) com copy EN do design system.
+- [x] **CA-OB-03**: Fluxo OB-1 → OB-2 → horário de notificação completa em < 2 min (RNF-003 preservado).
 
 ### Today
 
-- [ ] **CA-TD-01**: Card de ação com faixa peach + ilustração + texto; header com nome e streak.
-- [ ] **CA-TD-02**: “I did it”, “Skip” e “New idea” funcionam como antes (RF-003, RF-004, RF-002).
-- [ ] **CA-TD-03**: Comparação lado a lado com mock Screen 6 ≥ 90% paridade visual (copy EN, não PT do mock).
+- [x] **CA-TD-01**: Card de ação com faixa peach + ilustração + texto; header com nome e streak.
+- [x] **CA-TD-02**: “I did it”, “Skip” e “New idea” funcionam como antes (RF-003, RF-004, RF-002).
+- [x] **CA-TD-03**: Comparação lado a lado com mock Screen 6 ≥ 90% paridade visual (copy EN, não PT do mock).
 
 ### Progress
 
-- [ ] **CA-PR-01**: Streak card, métricas e conquistas visíveis conforme mock Screen 9.
-- [ ] **CA-PR-02**: Números exibidos batem com dados reais do backend/local (sem mock estático em produção).
+- [x] **CA-PR-01**: Streak card, métricas e conquistas visíveis conforme mock Screen 9.
+- [x] **CA-PR-02**: Números exibidos batem com dados reais do backend/local (sem mock estático em produção).
 
 ### History
 
-- [ ] **CA-HI-01**: Lista com ícone, título, data relativa e check verde para done conforme mock Screen 10.
-- [ ] **CA-HI-02**: RF-006 intacto — ordenação e status corretos após done/skip.
+- [x] **CA-HI-01**: Lista com ícone, título, data relativa e check verde para done conforme mock Screen 10.
+- [x] **CA-HI-02**: RF-006 intacto — ordenação e status corretos após done/skip.
 
 ### Settings
 
-- [ ] **CA-ST-01**: Lista com ícones, chevrons e status (“On”, “09:00”) conforme mock Screen 11 (labels EN).
-- [ ] **CA-ST-02**: RF-007 intacto — toggle e horário persistem e disparam notificação como antes.
+- [x] **CA-ST-01**: Lista com ícones, chevrons e status (“On”, “09:00”) conforme mock Screen 11 (labels EN).
+- [x] **CA-ST-02**: RF-007 intacto — toggle e horário persistem e disparam notificação como antes.
 
 ### Regressão
 
-- [ ] **CA-REG-01**: Suite manual MVP v0.1 (checklist em `.specs/features/v0.1-mvp/spec.md`) passa sem alteração de comportamento.
-- [ ] **CA-COPY-01**: Nenhuma string voltada ao usuário em português nas telas em escopo.
-- [ ] **CA-REG-02**: `npm run lint` e typecheck passam após redesign.
+- [x] **CA-REG-01**: Suite manual MVP v0.1 (checklist em `.specs/features/v0.1-mvp/spec.md`) passa sem alteração de comportamento.
+- [x] **CA-COPY-01**: Nenhuma string voltada ao usuário em português nas telas em escopo.
+- [x] **CA-REG-02**: `npm run lint` e typecheck passam após redesign.
 
 ---
 
@@ -370,10 +371,10 @@ O KindSpark hoje usa uma paleta fria (azul-acinzentada) e layout funcional sem a
 
 ## Success Criteria
 
-- [ ] Usuário descreve a app como “acolhedora/leve” em teste informal (≥ 3/5 participantes).
-- [ ] Paridade visual com mock ≥ 90% nas 6 superfícies (checklist de design review).
-- [ ] Zero regressões nos critérios de aceite do MVP v0.1 relacionados a RF-001…RF-007.
-- [ ] Tokens documentados em código espelham `kindspark-design-system.md` (única fonte de hex para UI nova).
+- [ ] Usuário descreve a app como “acolhedora/leve” em teste informal (≥ 3/5 participantes) — deferred pós-release.
+- [x] Paridade visual com mock ≥ 90% nas 6 superfícies (checklist de design review; UAT manual 2026-05-25).
+- [x] Zero regressões nos critérios de aceite do MVP v0.1 relacionados a RF-001…RF-007 (CA-REG-01).
+- [x] Tokens documentados em código espelham `kindspark-design-system.md` (única fonte de hex para UI nova).
 
 ---
 
@@ -390,8 +391,6 @@ O KindSpark hoje usa uma paleta fria (azul-acinzentada) e layout funcional sem a
 
 ---
 
-## Próximos passos (workflow TLC)
+## Encerramento
 
-1. **Design** (recomendado): `design.md` com mapa de componentes, estrutura de tokens (`theme/`), rotas onboarding novas, decisão NativeWind vs StyleSheet.
-2. **Tasks**: quebrar por `RUI-*` com commits atômicos (DS → OB → NAV → TD → PR → HI → ST).
-3. **Execute**: implementar sem alterar hooks de dados (`useTodayLoop`, `useProgress`, `useHistory`, `useSettings`).
+Feature concluída: Specify → Design → Tasks → Execute (R7) + UAT manual. Backlog visual futuro: `redesign-ui-phase-2` (completion screen, modais, auth skin).

@@ -1,21 +1,32 @@
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import {
+  ActionCard,
+  AdBannerShell,
+  AppText,
+  Button,
+  Card,
+  ScreenShell,
+  StreakBadge,
+} from '@/components/ui';
+import { copy } from '@/constants/copy';
+import { useAppSession } from '@/features/auth';
+import { useStreakBadge } from '@/features/today/useStreakBadge';
 import { useTodayLoop } from '@/features/today/useTodayLoop';
+import { getDisplayName } from '@/lib/format/display-name';
+import { getTimeGreeting } from '@/lib/format/greeting';
+import { colors, spacing } from '@/theme/tokens';
+
+const TAB_BAR_INSET = 96;
 
 export function TodayScreen() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
+  const { session } = useAppSession();
+  const displayName = getDisplayName(session);
+  const greeting = getTimeGreeting();
+
+  const { streak, load: loadStreak } = useStreakBadge();
   const {
     suggestion,
     todayDone,
@@ -34,242 +45,142 @@ export function TodayScreen() {
   useFocusEffect(
     useCallback(() => {
       load();
-    }, [load]),
+      loadStreak();
+    }, [load, loadStreak]),
   );
 
   const loading = busy === 'load' && !suggestion;
   const actionDisabled = busy !== null && busy !== 'load';
   const showPrimaryActions = !currentSuggestionSkipped;
 
+  const offlineMessage = pendingSync ? copy.today.offlinePending : copy.today.offlineCached;
+
   return (
-    <ScrollView
-      style={[styles.scroll, { backgroundColor: colors.background }]}
-      contentContainerStyle={styles.content}
+    <ScreenShell
+      scrollable
+      contentContainerStyle={[styles.content, { paddingBottom: TAB_BAR_INSET }]}
     >
-      <Text style={[styles.heading, { color: colors.text }]}>Today&apos;s kindness</Text>
+      <View style={styles.header}>
+        <AppText variant="section" numberOfLines={1} style={styles.greeting}>
+          {greeting}, {displayName}
+        </AppText>
+        {streak > 0 ? <StreakBadge count={streak} /> : null}
+      </View>
 
       {isOffline ? (
-        <Text style={[styles.offlineBanner, { color: colors.muted }]}>
-          {pendingSync
-            ? 'Offline — your action will sync when you’re back online.'
-            : 'Offline — showing your last cached suggestion.'}
-        </Text>
+        <AppText variant="caption" color={colors.textMuted} style={styles.centered}>
+          {offlineMessage}
+        </AppText>
       ) : null}
 
       {loading ? (
-        <ActivityIndicator size="large" color={colors.tint} style={styles.loader} />
+        <ActivityIndicator size="large" color={colors.ctaEnd} style={styles.loader} />
       ) : null}
 
       {!loading && isCompleted ? (
-        <View style={[styles.card, { borderColor: colors.tint }]}>
-          <Text style={[styles.doneTitle, { color: colors.text }]}>You showed kindness today</Text>
-          <Text style={[styles.doneSubtitle, { color: colors.muted }]}>
-            Your streak counts for today. Come back tomorrow for a new suggestion.
-          </Text>
-        </View>
+        <Card style={styles.completedCard}>
+          <AppText variant="cardTitle" style={styles.centered}>
+            {copy.today.completedTitle}
+          </AppText>
+          <AppText variant="bodySecondary" style={styles.centered}>
+            {copy.today.completedSubtitle}
+          </AppText>
+        </Card>
       ) : null}
 
       {!loading && !isCompleted && suggestion ? (
-        <View style={styles.card}>
-          <Text style={[styles.category, { color: colors.tint }]}>{suggestion.category}</Text>
-          <Text style={[styles.actionTitle, { color: colors.text }]}>{suggestion.title}</Text>
-          <Text style={[styles.description, { color: colors.muted }]}>{suggestion.description}</Text>
-        </View>
+        <ActionCard
+          title={suggestion.title}
+          description={suggestion.description}
+          category={suggestion.category}
+        />
       ) : null}
 
       {!loading && !isCompleted && !suggestion && !error ? (
-        <Text style={[styles.empty, { color: colors.muted }]}>No suggestion available right now.</Text>
+        <AppText variant="bodySecondary" style={styles.centered}>
+          {copy.today.emptySuggestion}
+        </AppText>
       ) : null}
 
       {currentSuggestionSkipped && !isCompleted ? (
-        <Text style={[styles.skipHint, { color: colors.muted }]}>
-          Skipped this one — pick another idea when you&apos;re ready.
-        </Text>
+        <AppText variant="secondary" color={colors.textMuted} style={styles.centered}>
+          {copy.today.skipHint}
+        </AppText>
       ) : null}
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {error ? (
+        <AppText variant="caption" color={colors.warning} style={styles.centered}>
+          {error}
+        </AppText>
+      ) : null}
 
       {!loading && !isCompleted && suggestion ? (
         <View style={styles.actions}>
           {showPrimaryActions ? (
             <>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.primaryButton,
-                  { backgroundColor: colors.tint },
-                  (pressed || actionDisabled) && styles.buttonPressed,
-                ]}
+              <Button
+                label={copy.today.didIt}
+                variant="primary"
                 onPress={handleDone}
+                loading={busy === 'done'}
                 disabled={actionDisabled}
-              >
-                {busy === 'done' ? (
-                  <ActivityIndicator color="#fff" />
-                ) : (
-                  <Text style={styles.primaryButtonText}>I did it</Text>
-                )}
-              </Pressable>
-
-              <Pressable
-                style={({ pressed }) => [
-                  styles.secondaryButton,
-                  { borderColor: colors.tint },
-                  (pressed || actionDisabled) && styles.buttonPressed,
-                ]}
+              />
+              <Button
+                label={copy.today.skip}
+                variant="secondary"
                 onPress={handleSkip}
+                loading={busy === 'skip'}
                 disabled={actionDisabled}
-              >
-                {busy === 'skip' ? (
-                  <ActivityIndicator color={colors.tint} />
-                ) : (
-                  <Text style={[styles.secondaryButtonText, { color: colors.tint }]}>Skip</Text>
-                )}
-              </Pressable>
+              />
             </>
           ) : null}
-
-          <Pressable
-            style={({ pressed }) => [
-              showPrimaryActions ? styles.linkButton : styles.secondaryButton,
-              showPrimaryActions
-                ? undefined
-                : { borderColor: colors.tint },
-              (pressed || actionDisabled) && styles.buttonPressed,
-            ]}
+          <Button
+            label={copy.today.newIdea}
+            variant="text"
+            icon="refresh"
             onPress={handleRefresh}
+            loading={busy === 'refresh'}
             disabled={actionDisabled}
-          >
-            {busy === 'refresh' ? (
-              <ActivityIndicator color={colors.tint} />
-            ) : (
-              <Text
-                style={[
-                  showPrimaryActions ? styles.linkButtonText : styles.secondaryButtonText,
-                  { color: colors.tint },
-                ]}
-              >
-                Another idea
-              </Text>
-            )}
-          </Pressable>
+          />
         </View>
       ) : null}
 
       {!loading && isCompleted && todayDone ? (
-        <Text style={[styles.completedMeta, { color: colors.muted }]}>
-          Logged for {todayDone.action_date}
-        </Text>
+        <AppText variant="caption" style={styles.centered}>
+          {copy.today.loggedFor} {todayDone.action_date}
+        </AppText>
       ) : null}
-    </ScrollView>
+
+      <AdBannerShell />
+    </ScreenShell>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
+  content: {
+    gap: spacing[4],
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing[3],
+  },
+  greeting: {
     flex: 1,
   },
-  content: {
-    padding: 24,
-    paddingBottom: 40,
-    gap: 16,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: '600',
+  centered: {
     textAlign: 'center',
-    marginBottom: 8,
-  },
-  offlineBanner: {
-    fontSize: 13,
-    textAlign: 'center',
-    lineHeight: 18,
   },
   loader: {
-    marginTop: 32,
+    marginVertical: spacing[6],
   },
-  card: {
-    borderRadius: 12,
-    padding: 20,
-    gap: 10,
-    borderWidth: 1,
-    borderColor: 'transparent',
-    backgroundColor: 'rgba(255,255,255,0.5)',
-  },
-  category: {
-    fontSize: 13,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  actionTitle: {
-    fontSize: 22,
-    fontWeight: '600',
-    lineHeight: 28,
-  },
-  description: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  doneTitle: {
-    fontSize: 22,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  doneSubtitle: {
-    fontSize: 16,
-    lineHeight: 22,
-    textAlign: 'center',
-  },
-  empty: {
-    textAlign: 'center',
-    fontSize: 16,
-  },
-  skipHint: {
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  error: {
-    color: '#C45C5C',
-    fontSize: 14,
-    textAlign: 'center',
+  completedCard: {
+    padding: spacing[5],
+    gap: spacing[2],
   },
   actions: {
-    gap: 12,
-    marginTop: 8,
-  },
-  primaryButton: {
-    borderRadius: 10,
-    paddingVertical: 14,
-    alignItems: 'center',
-  },
-  primaryButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    borderRadius: 10,
-    borderWidth: 1,
-    paddingVertical: 14,
-    alignItems: 'center',
-  },
-  secondaryButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  linkButton: {
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  linkButtonText: {
-    fontSize: 15,
-    fontWeight: '500',
-  },
-  buttonPressed: {
-    opacity: 0.85,
-  },
-  completedMeta: {
-    fontSize: 13,
-    textAlign: 'center',
+    gap: spacing[3],
+    marginTop: spacing[2],
   },
 });

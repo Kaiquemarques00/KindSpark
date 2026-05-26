@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
+import { hitSlop44 } from '@/components/ui/a11y';
 import { colors } from '@/theme/tokens';
 
 type ListRowProps = {
@@ -24,7 +25,7 @@ export function ListRow({
   const content = (
     <>
       {icon ? (
-        <View style={styles.iconWrap}>
+        <View style={styles.iconWrap} accessibilityElementsHidden importantForAccessibility="no">
           <Ionicons name={icon} size={22} color={colors.textPrimary} />
         </View>
       ) : null}
@@ -38,7 +39,13 @@ export function ListRow({
       ) : null}
       {rightElement}
       {showChevron ? (
-        <Ionicons name="chevron-forward" size={20} color={colors.textMuted} accessibilityLabel="" />
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.textMuted}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        />
       ) : null}
     </>
   );
@@ -47,6 +54,7 @@ export function ListRow({
     return (
       <Pressable
         onPress={onPress}
+        hitSlop={hitSlop44}
         style={({ pressed }) => [styles.row, pressed && styles.pressed]}
         accessibilityRole="button"
         accessibilityLabel={value ? `${label}, ${value}` : label}

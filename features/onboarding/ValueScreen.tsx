@@ -9,32 +9,29 @@ import { ScreenShell } from '@/components/ui/ScreenShell';
 import { copy } from '@/constants/copy';
 import { spacing } from '@/theme/tokens';
 
-export function WelcomeScreen() {
+export function ValueScreen() {
   const router = useRouter();
 
   return (
     <ScreenShell contentContainerStyle={styles.container}>
       <View style={styles.top}>
-        <AppText variant="hero" style={styles.centered}>
-          {copy.brand.name}
-        </AppText>
-        <AppText variant="bodySecondary" style={[styles.centered, styles.subtitle]}>
-          {copy.onboarding.welcomeSubtitle}
+        <AppText variant="title" style={styles.centered}>
+          {copy.onboarding.valueHeadline}
         </AppText>
       </View>
 
       <Illustration
         size="onboarding"
-        placeholderIcon="sparkles"
-        accessibilityLabel="Welcome illustration"
+        placeholderIcon="sunny"
+        accessibilityLabel="Value illustration"
       />
 
       <View style={styles.bottom}>
-        <PaginationDots count={2} activeIndex={0} />
+        <PaginationDots count={2} activeIndex={1} />
         <Button
-          label={copy.onboarding.getStarted}
+          label={copy.onboarding.continue}
           variant="primary"
-          onPress={() => router.push('/(onboarding)/value')}
+          onPress={() => router.push('/(onboarding)/notification-time')}
         />
       </View>
     </ScreenShell>
@@ -48,13 +45,10 @@ const styles = StyleSheet.create({
   },
   top: {
     marginTop: spacing[6],
-    gap: spacing[3],
+    paddingHorizontal: spacing[2],
   },
   centered: {
     textAlign: 'center',
-  },
-  subtitle: {
-    paddingHorizontal: spacing[2],
   },
   bottom: {
     gap: spacing[5],

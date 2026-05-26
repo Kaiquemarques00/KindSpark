@@ -9,7 +9,11 @@ type PaginationDotsProps = {
 
 export function PaginationDots({ count, activeIndex }: PaginationDotsProps) {
   return (
-    <View style={styles.row} accessibilityRole="tablist">
+    <View
+      style={styles.row}
+      accessibilityRole="tablist"
+      accessibilityLabel={`Step ${activeIndex + 1} of ${count}`}
+    >
       {Array.from({ length: count }, (_, index) => {
         const isActive = index === activeIndex;
         return (
@@ -18,6 +22,7 @@ export function PaginationDots({ count, activeIndex }: PaginationDotsProps) {
             style={[styles.dot, isActive ? styles.dotActive : styles.dotInactive]}
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}
+            accessibilityLabel={`Step ${index + 1} of ${count}`}
           />
         );
       })}

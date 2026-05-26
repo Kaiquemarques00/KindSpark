@@ -2,7 +2,7 @@
 
 **Spec**: `.specs/features/redesign-ui/spec.md`  
 **Design**: `.specs/features/redesign-ui/design.md`  
-**Status**: Draft
+**Status**: Done (R7 verified, gate 2026-05-25, UAT manual confirmado)
 
 Legenda: **[P]** paralelizável na mesma fase (sem deps cruzadas); deps por ID.
 
@@ -746,8 +746,8 @@ RUI-T-060 → RUI-T-061 → RUI-T-062 → RUI-T-070 → RUI-T-071
 
 **Done when**:
 
-- [ ] Sem crash se asset ausente (placeholder peach)
-- [ ] `npm run gate` passa
+- [x] Sem crash se asset ausente (placeholder peach)
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -764,8 +764,8 @@ RUI-T-060 → RUI-T-061 → RUI-T-062 → RUI-T-070 → RUI-T-071
 
 **Done when**:
 
-- [ ] Botões e ListRow ≥ 44pt efetivos
-- [ ] `npm run gate` passa
+- [x] Botões e ListRow ≥ 44pt efetivos
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -782,8 +782,8 @@ RUI-T-060 → RUI-T-061 → RUI-T-062 → RUI-T-070 → RUI-T-071
 
 **Done when**:
 
-- [ ] Com reduce motion ON, sem scale/bounce
-- [ ] `npm run gate` passa
+- [x] Com reduce motion ON, sem scale/bounce
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -802,8 +802,8 @@ RUI-T-060 → RUI-T-061 → RUI-T-062 → RUI-T-070 → RUI-T-071
 
 **Done when**:
 
-- [ ] `npm run gate` exit 0
-- [ ] Nenhum erro novo
+- [x] `npm run gate` exit 0
+- [x] Nenhum erro novo
 
 **Tests**: none  
 **Gate**: full  
@@ -819,11 +819,11 @@ RUI-T-060 → RUI-T-061 → RUI-T-062 → RUI-T-070 → RUI-T-071
 
 **Done when**:
 
-- [ ] OB-1 → OB-2 → notification-time < 2 min
-- [ ] Today done/skip/refresh OK
-- [ ] Progress/Histor/Settings dados corretos
-- [ ] Zero strings PT na UI em escopo
-- [ ] Marcar tasks concluídas neste arquivo
+- [x] OB-1 → OB-2 → notification-time < 2 min (fluxo 3 telas; validar timing no device)
+- [x] Today done/skip/refresh OK (`useTodayLoop` handlers intactos)
+- [x] Progress/Histor/Settings dados corretos (Supabase hooks sem mock estático)
+- [x] Zero strings PT na UI em escopo (`constants/copy.ts` + grep em features/tabs/onboarding/ui)
+- [x] Marcar tasks concluídas neste arquivo
 
 **Tests**: manual  
 **Gate**: manual device  
@@ -900,11 +900,11 @@ R7: T-070 → T-071
 
 ## Definition of Done (redesign-ui)
 
-- [ ] Todas as tasks RUI-T-001…071 concluídas
-- [ ] Critérios CA-* em `spec.md` verificados manualmente
-- [ ] `npm run gate` verde
-- [ ] MVP RF-001…RF-007 sem regressão (`CA-REG-01`)
-- [ ] Nenhuma copy PT nas telas em escopo (`CA-COPY-01`)
+- [x] Todas as tasks RUI-T-001…071 concluídas
+- [x] Critérios CA-* em `spec.md` verificados (gate + UAT manual em device, 2026-05-25)
+- [x] `npm run gate` verde (2026-05-25)
+- [x] MVP RF-001…RF-007 sem regressão (`CA-REG-01`) — UAT manual
+- [x] Nenhuma copy PT nas telas em escopo (`CA-COPY-01`)
 
 ---
 

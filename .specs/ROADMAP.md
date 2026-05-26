@@ -34,16 +34,17 @@
 - Testes em dispositivo físico (iOS + Android).
 - README: rodar local, build preview, variáveis de ambiente.
 
-## Feature em especificação — `redesign-ui`
+## Feature concluída — `redesign-ui` ✅
 
-- Redesign visual completo das telas principais (onboarding 2 telas, Today, Progress, History, Settings).
-- Spec: `.specs/features/redesign-ui/spec.md` — fonte: `kindspark-design-system.md` + mockup.
-- Comportamento MVP preservado (RF-001…RF-007); apenas camada UI/UX.
+- Redesign visual das telas principais (onboarding welcome + value, Today, Progress, History, Settings).
+- Spec: `.specs/features/redesign-ui/spec.md` — Done (gate + UAT manual, 2026-05-25).
+- Comportamento MVP preservado (RF-001…RF-007); camada UI/UX + design system.
 
 ## Pós v0.1 (backlog de produto)
 
 | Versão | Foco |
 |--------|------|
+| v0.1.1 | `redesign-ui-phase-2` — completion screen, modais, auth visual |
 | v0.2 | Sugestões enviadas por usuários, curadoria, categorias |
 | v0.3 | IA para ideias e personalização |
 | v0.4 | Social sharing, comunidade, votação |

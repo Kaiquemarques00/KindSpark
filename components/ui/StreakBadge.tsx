@@ -10,9 +10,19 @@ type StreakBadgeProps = {
 
 export function StreakBadge({ count }: StreakBadgeProps) {
   return (
-    <View style={styles.badge} accessibilityLabel={`${count} day streak`}>
-      <Ionicons name="flame" size={16} color={colors.ctaEnd} accessibilityElementsHidden />
-      <AppText variant="caption" color={colors.ctaEnd}>
+    <View
+      style={styles.badge}
+      accessibilityRole="text"
+      accessibilityLabel={`${count} day streak`}
+    >
+      <Ionicons
+        name="flame"
+        size={16}
+        color={colors.ctaEnd}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      />
+      <AppText variant="caption" color={colors.ctaEnd} accessibilityElementsHidden>
         {count}
       </AppText>
     </View>
@@ -28,5 +38,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: radius.pill,
+    minHeight: 32,
+    minWidth: 44,
+    justifyContent: 'center',
   },
 });

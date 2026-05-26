@@ -1,20 +1,31 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import {
+  AchievementBadge,
+  AppText,
+  Button,
+  Card,
+  ScreenShell,
+  StatsRow,
+} from '@/components/ui';
+import { copy } from '@/constants/copy';
 import { useProgress } from '@/features/progress/useProgress';
+import { getAchievementState } from '@/lib/streak/achievement-state';
+import { STREAK_MILESTONES } from '@/lib/streak/milestones';
+import { colors, spacing } from '@/theme/tokens';
 
-function streakSubtitle(count: number): string {
-  if (count === 1) return '1-day kindness streak';
-  return `${count}-day kindness streak`;
+const TAB_BAR_INSET = 96;
+
+function streakLabel(count: number): string {
+  if (count === 1) return copy.progress.streakSubtitleOne;
+  return copy.progress.streakSubtitle.replace('{n}', String(count));
 }
 
 export function ProgressScreen() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
-  const { streak, busy, error, milestoneMessage, nextMilestone, load } = useProgress();
+  const { streak, busy, error, milestoneMessage, nextMilestone, stats, load } = useProgress();
 
   useFocusEffect(
     useCallback(() => {
@@ -22,127 +33,144 @@ export function ProgressScreen() {
     }, [load]),
   );
 
+  const daysLabel =
+    streak === 1 ? `1 ${copy.progress.day}` : `${streak} ${copy.progress.days}`;
+
   return (
-    <ScrollView
-      style={[styles.scroll, { backgroundColor: colors.background }]}
-      contentContainerStyle={styles.content}
+    <ScreenShell
+      scrollable
+      contentContainerStyle={[styles.content, { paddingBottom: TAB_BAR_INSET }]}
     >
-      <Text style={[styles.heading, { color: colors.text }]}>Your streak</Text>
-      <Text style={[styles.subheading, { color: colors.muted }]}>
-        Consecutive days with at least one kind action done.
-      </Text>
+      <AppText variant="title">{copy.progress.title}</AppText>
 
       {busy ? (
-        <ActivityIndicator size="large" color={colors.tint} style={styles.loader} />
+        <ActivityIndicator size="large" color={colors.ctaEnd} style={styles.loader} />
       ) : null}
 
       {!busy && !error ? (
-        <View style={[styles.streakCard, { borderColor: colors.tint }]}>
-          <Text style={[styles.streakNumber, { color: colors.tint }]}>{streak}</Text>
-          <Text style={[styles.streakCopy, { color: colors.text }]}>
-            {streak > 0 ? streakSubtitle(streak) : 'No active streak yet'}
-          </Text>
-        </View>
+        <Card style={styles.streakCard}>
+          <View style={styles.streakHeader}>
+            <Ionicons name="flame" size={28} color={colors.ctaEnd} />
+            <AppText variant="secondary" color={colors.textSecondary}>
+              {copy.progress.currentStreak}
+            </AppText>
+          </View>
+          <AppText variant="hero" color={colors.ctaEnd}>
+            {daysLabel}
+          </AppText>
+          <AppText variant="bodySecondary" style={styles.centered}>
+            {streak > 0 ? streakLabel(streak) : copy.progress.noStreakTitle}
+          </AppText>
+        </Card>
       ) : null}
 
       {!busy && streak === 0 && !error ? (
-        <Text style={[styles.empty, { color: colors.muted }]}>
-          Complete today&apos;s kindness on the Today tab to start your streak.
-        </Text>
+        <AppText variant="bodySecondary" style={styles.centered}>
+          {copy.progress.noStreakBody}
+        </AppText>
       ) : null}
 
-      {!busy && streak > 0 && nextMilestone && !milestoneMessage ? (
-        <Text style={[styles.hint, { color: colors.muted }]}>
-          {nextMilestone - streak} more {nextMilestone - streak === 1 ? 'day' : 'days'} until your{' '}
-          {nextMilestone}-day milestone.
-        </Text>
+      {!busy && stats ? (
+        <StatsRow
+          completed={stats.completed}
+          skipped={stats.skipped}
+          completionRate={stats.completionRate}
+        />
       ) : null}
 
-      {!busy && milestoneMessage ? (
-        <View style={[styles.milestoneCard, { backgroundColor: colors.tint }]}>
-          <Text style={styles.milestoneTitle}>Milestone reached</Text>
-          <Text style={styles.milestoneBody}>{milestoneMessage}</Text>
+      {!busy && !error ? (
+        <View style={styles.achievementsSection}>
+          <View style={styles.achievementsHeader}>
+            <AppText variant="section">{copy.progress.achievements}</AppText>
+            <AppText variant="caption" color={colors.ctaEnd}>
+              {copy.progress.seeAll} &gt;
+            </AppText>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.achievementsRow}
+          >
+            {STREAK_MILESTONES.map((days) => (
+              <AchievementBadge
+                key={days}
+                days={days}
+                state={getAchievementState(streak, days, nextMilestone)}
+              />
+            ))}
+          </ScrollView>
         </View>
       ) : null}
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-    </ScrollView>
+      {!busy && streak > 0 && nextMilestone && !milestoneMessage ? (
+        <AppText variant="caption" style={styles.centered}>
+          {copy.progress.nextMilestoneHint
+            .replace('{n}', String(nextMilestone - streak))
+            .replace(
+              '{unit}',
+              nextMilestone - streak === 1 ? copy.progress.dayUnit : copy.progress.daysUnit,
+            )
+            .replace('{m}', String(nextMilestone))}
+        </AppText>
+      ) : null}
+
+      {!busy && milestoneMessage ? (
+        <Card style={styles.milestoneCard}>
+          <AppText variant="caption" color={colors.ctaEnd}>
+            {copy.progress.milestoneReached}
+          </AppText>
+          <AppText variant="body">{milestoneMessage}</AppText>
+        </Card>
+      ) : null}
+
+      {error ? (
+        <>
+          <AppText variant="caption" color={colors.warning} style={styles.centered}>
+            {error}
+          </AppText>
+          <Button label={copy.progress.retry} variant="text" onPress={load} />
+        </>
+      ) : null}
+    </ScreenShell>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-  },
   content: {
-    padding: 24,
-    paddingBottom: 40,
-    gap: 16,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  subheading: {
-    fontSize: 15,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 8,
+    gap: spacing[4],
   },
   loader: {
-    marginTop: 32,
+    marginVertical: spacing[6],
   },
   streakCard: {
-    borderRadius: 12,
-    padding: 28,
+    backgroundColor: colors.peach,
+    padding: spacing[5],
+    gap: spacing[2],
     alignItems: 'center',
-    gap: 8,
-    borderWidth: 1,
-    backgroundColor: 'rgba(255,255,255,0.5)',
-    marginTop: 8,
   },
-  streakNumber: {
-    fontSize: 64,
-    fontWeight: '700',
-    lineHeight: 72,
+  streakHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[2],
   },
-  streakCopy: {
-    fontSize: 18,
+  centered: {
     textAlign: 'center',
-    lineHeight: 24,
   },
-  empty: {
-    fontSize: 16,
-    textAlign: 'center',
-    lineHeight: 24,
+  achievementsSection: {
+    gap: spacing[3],
   },
-  hint: {
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 20,
+  achievementsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  achievementsRow: {
+    gap: spacing[3],
+    paddingVertical: spacing[1],
   },
   milestoneCard: {
-    borderRadius: 12,
-    padding: 20,
-    gap: 8,
-  },
-  milestoneTitle: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  milestoneBody: {
-    color: '#fff',
-    fontSize: 17,
-    lineHeight: 24,
-    fontWeight: '500',
-  },
-  error: {
-    color: '#C45C5C',
-    fontSize: 14,
-    textAlign: 'center',
+    padding: spacing[4],
+    gap: spacing[2],
+    backgroundColor: colors.peach,
   },
 });

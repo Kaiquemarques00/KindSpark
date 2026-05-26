@@ -8,7 +8,7 @@ export function getAppEntryHref(
   onboardingComplete: boolean | null,
 ): Href | null {
   if (!session) return '/(auth)/login';
-  if (onboardingComplete === false) return '/(onboarding)/notification-time';
+  if (onboardingComplete === false) return '/(onboarding)/welcome';
   if (onboardingComplete === true) return '/(tabs)';
   return null;
 }

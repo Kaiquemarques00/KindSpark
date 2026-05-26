@@ -11,6 +11,14 @@ export const copy = {
     notNow: 'Not now',
     saveTime: 'Save Time',
     seeMyAction: 'See My Action',
+    notificationTimeTitle: 'When should we remind you?',
+    notificationTimeSubtitle:
+      'Pick a time for your daily kindness nudge. You can change this later in Settings.',
+    notificationTimeSelected: 'Selected',
+    signInRequired: 'You need to be signed in.',
+    notificationsDenied:
+      'Enable notifications in system settings to get daily reminders.',
+    savePreferencesError: 'Could not save your preferences.',
   },
   tabs: {
     today: 'Today',
@@ -28,6 +36,14 @@ export const copy = {
     amazing: 'Amazing ✨',
     loading: 'Loading your kindness…',
     offline: 'You are offline. Changes will sync when you reconnect.',
+    offlinePending: 'Offline — your action will sync when you’re back online.',
+    offlineCached: 'Offline — showing your last cached suggestion.',
+    completedTitle: 'You showed kindness today',
+    completedSubtitle:
+      'Your streak counts for today. Come back tomorrow for a new suggestion.',
+    skipHint: 'Skipped this one — pick another idea when you’re ready.',
+    emptySuggestion: 'No suggestion available right now.',
+    loggedFor: 'Logged for',
   },
   progress: {
     title: 'Your progress',
@@ -42,6 +58,12 @@ export const copy = {
     noStreakTitle: 'Start your streak today',
     noStreakBody: 'Complete today\'s kindness on the Today tab to start your streak.',
     retry: 'Tap to retry',
+    milestoneReached: 'Milestone reached',
+    streakSubtitle: '{n}-day kindness streak',
+    streakSubtitleOne: '1-day kindness streak',
+    nextMilestoneHint: '{n} more {unit} until your {m}-day milestone.',
+    dayUnit: 'day',
+    daysUnit: 'days',
   },
   history: {
     title: 'History',
@@ -68,5 +90,10 @@ export const copy = {
     saved: 'Settings saved.',
     signOut: 'Sign out',
     dailyReminder: 'Daily reminder',
+    saveChanges: 'Save changes',
+    remindersOff: 'Reminders are off. You can still open the app anytime.',
+    comingSoon: 'Coming soon',
+    loadError: 'Could not load settings.',
+    saveError: 'Could not save settings.',
   },
 } as const;

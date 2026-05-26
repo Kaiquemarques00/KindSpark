@@ -4,18 +4,19 @@ Stack sugerida em `kindspark.md`, adotada como baseline até revisão em `STATE.
 
 | Camada | Tecnologia |
 |--------|------------|
-| Mobile | React Native + Expo (SDK estável LTS) |
+| Mobile | React Native + Expo (SDK 54) |
 | Linguagem | TypeScript |
 | Navegação | Expo Router (file-based) |
+| UI | Tokens em `constants/theme`; `@expo-google-fonts/inter`; `expo-linear-gradient` |
 | Backend / DB / Auth | Supabase (PostgreSQL, Auth, RLS) |
 | Push | Expo Notifications (+ token em Supabase) |
-| Estado local / offline | AsyncStorage ou SQLite (Expo) para cache da sugestão do dia |
+| Estado local / offline | AsyncStorage para cache da sugestão do dia + fila de sync |
 
 ## Premissas
 
 - API mínima: Supabase client + RLS para dados do usuário autenticado.
 - Catálogo de 50 ações: seed em migration (`actions`), sem IA.
-- Auth: email/senha ou magic link (decidir em `STATE.md` na Execute).
+- Auth: email/senha (decidido — ver `STATE.md`).
 - Analytics: eventos mínimos (Expo ou provedor leve) para métricas de validação.
 
 ## Não incluído na v0.1

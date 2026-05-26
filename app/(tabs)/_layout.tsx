@@ -1,24 +1,60 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Ionicons } from '@expo/vector-icons';
 import { Redirect, Tabs } from 'expo-router';
-import React from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { LoadingScreen } from '@/components/LoadingScreen';
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { copy } from '@/constants/copy';
 import { useAppSession } from '@/features/auth';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { duration } from '@/theme/motion';
+import { fontFamily } from '@/theme/typography';
+import { colors, radius, shadows } from '@/theme/tokens';
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
+
+type TabBarIconProps = {
+  focused: boolean;
   color: string;
-}) {
-  return <FontAwesome size={24} style={{ marginBottom: -2 }} {...props} />;
+  outline: IoniconName;
+  filled: IoniconName;
+};
+
+function TabBarIcon({ focused, color, outline, filled }: TabBarIconProps) {
+  const reduceMotion = useReducedMotion();
+
+  const animatedStyle = useAnimatedStyle(() => {
+    if (reduceMotion) {
+      return {
+        transform: [{ scale: 1 }],
+        opacity: focused ? 1 : 0.85,
+      };
+    }
+    return {
+      transform: [{ scale: withTiming(focused ? 1 : 0.92, { duration: duration.default }) }],
+      opacity: withTiming(focused ? 1 : 0.85, { duration: duration.default }),
+    };
+  }, [focused, reduceMotion]);
+
+  if (reduceMotion) {
+    return (
+      <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+        <Ionicons name={focused ? filled : outline} size={24} color={color} />
+      </View>
+    );
+  }
+
+  return (
+    <Animated.View style={animatedStyle} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <Ionicons name={focused ? filled : outline} size={24} color={color} />
+    </Animated.View>
+  );
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const headerShown = useClientOnlyValue(false, true);
   const { session, authLoading, onboardingComplete } = useAppSession();
+  const reduceMotion = useReducedMotion();
+  const transitionDuration = reduceMotion ? 0 : duration.default;
 
   if (authLoading || (session && onboardingComplete === null)) {
     return <LoadingScreen />;
@@ -29,43 +65,91 @@ export default function TabLayout() {
   }
 
   if (!onboardingComplete) {
-    return <Redirect href="/(onboarding)/notification-time" />;
+    return <Redirect href="/(onboarding)/welcome" />;
   }
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown,
-      }}>
+        headerShown: false,
+        tabBarActiveTintColor: colors.ctaEnd,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle: styles.tabBar,
+        tabBarLabelStyle: styles.tabBarLabel,
+        tabBarHideOnKeyboard: true,
+        sceneStyle: { backgroundColor: colors.background },
+        animation: reduceMotion ? 'none' : 'fade',
+        transitionSpec: {
+          animation: 'timing',
+          config: { duration: transitionDuration },
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Today',
-          tabBarIcon: ({ color }) => <TabBarIcon name="sun-o" color={color} />,
+          title: copy.tabs.today,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon focused={focused} color={color} outline="sunny-outline" filled="sunny" />
+          ),
         }}
       />
       <Tabs.Screen
         name="progress"
         options={{
-          title: 'Progress',
-          tabBarIcon: ({ color }) => <TabBarIcon name="line-chart" color={color} />,
+          title: copy.tabs.progress,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              focused={focused}
+              color={color}
+              outline="stats-chart-outline"
+              filled="stats-chart"
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
-          title: 'History',
-          tabBarIcon: ({ color }) => <TabBarIcon name="history" color={color} />,
+          title: copy.tabs.history,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon focused={focused} color={color} outline="time-outline" filled="time" />
+          ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
+          title: copy.tabs.settings,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              focused={focused}
+              color={color}
+              outline="settings-outline"
+              filled="settings"
+            />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    position: 'absolute',
+    backgroundColor: colors.card,
+    borderTopLeftRadius: radius.primary,
+    borderTopRightRadius: radius.primary,
+    borderTopWidth: 0,
+    paddingTop: 8,
+    height: Platform.select({ ios: 88, default: 68 }),
+    ...shadows.card,
+    elevation: 12,
+  },
+  tabBarLabel: {
+    fontFamily: fontFamily.medium,
+    fontSize: 12,
+    marginBottom: Platform.OS === 'ios' ? 0 : 8,
+  },
+});

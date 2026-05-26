@@ -10,7 +10,12 @@ import {
   getShownMilestonesToday,
   markMilestoneShownToday,
 } from '@/lib/streak/milestone-storage';
-import { fetchCurrentStreak, toLocalDateString } from '@/lib/supabase';
+import {
+  fetchActionStats,
+  fetchCurrentStreak,
+  toLocalDateString,
+  type ActionStats,
+} from '@/lib/supabase';
 
 export function useProgress() {
   const today = toLocalDateString();
@@ -18,13 +23,20 @@ export function useProgress() {
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [milestoneMessage, setMilestoneMessage] = useState<string | null>(null);
+  const [stats, setStats] = useState<ActionStats | null>(null);
 
   const load = useCallback(async () => {
     setBusy(true);
     setError(null);
     setMilestoneMessage(null);
+    setStats(null);
 
-    const { streak: value, error: streakError } = await fetchCurrentStreak(today);
+    const [streakResult, statsResult] = await Promise.all([
+      fetchCurrentStreak(today),
+      fetchActionStats('month'),
+    ]);
+
+    const { streak: value, error: streakError } = streakResult;
 
     if (streakError) {
       setError(streakError.message);
@@ -33,6 +45,10 @@ export function useProgress() {
     }
 
     setStreak(value);
+
+    if (!statsResult.error && statsResult.data) {
+      setStats(statsResult.data);
+    }
 
     const active = getActiveMilestone(value);
     if (active) {
@@ -56,6 +72,7 @@ export function useProgress() {
     error,
     milestoneMessage,
     nextMilestone,
+    stats,
     load,
   };
 }
