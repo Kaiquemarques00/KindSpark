@@ -164,10 +164,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Modal `presentation: 'modal'`, `headerShown: false`, `animation: 'fade'`
-- [ ] `completion.tsx` renderiza placeholder ou `CompletionScreen` stub compilável
-- [ ] Deep link `/completion` resolve sem crash
-- [ ] `npm run gate` passa
+- [x] Modal `presentation: 'modal'`, `headerShown: false`, `animation: 'fade'`
+- [x] `completion.tsx` renderiza placeholder ou `CompletionScreen` stub compilável
+- [x] Deep link `/completion` resolve sem crash
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  

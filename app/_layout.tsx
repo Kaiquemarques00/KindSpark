@@ -54,6 +54,14 @@ function RootLayoutNav() {
           <Stack.Screen name="(auth)" />
           <Stack.Screen name="(onboarding)" />
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen
+            name="completion"
+            options={{
+              presentation: 'modal',
+              animation: 'fade',
+              headerShown: false,
+            }}
+          />
         </Stack>
       </ThemeProvider>
     </AppSessionProvider>
