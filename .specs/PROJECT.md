@@ -56,4 +56,5 @@ Ver `.specs/STACK.md`. Ajustes documentados em `STATE.md`.
 
 ## Fase TLC atual
 
-**Specify** concluído para v0.1. **Design** e **Tasks** em `.specs/features/v0.1-mvp/`. **Execute** inicia após bootstrap do app Expo + Supabase.
+**v0.1 MVP + redesign-ui:** Execute concluído.  
+**completion-screen (v0.1.1):** Specify, Design e Tasks em `.specs/features/completion-screen/` — pronto para Execute (11 tarefas atômicas, COMP-T-001…011).

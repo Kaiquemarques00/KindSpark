@@ -75,6 +75,19 @@ export const copy = {
     statusSkipped: 'Skipped',
     retry: 'Tap to retry',
   },
+  completion: {
+    headline: 'Amazing ✨',
+    messages: [
+      'You made someone\'s day better ✨',
+      'One kind action completed 🌱',
+      'Small actions create big change 💛',
+    ],
+    currentStreak: 'Current streak',
+    completedActions: 'Completed',
+    seeProgress: 'See my progress',
+    seeHistory: 'See history',
+    close: 'Close',
+  },
   settings: {
     title: 'Settings',
     notifications: 'Notifications',

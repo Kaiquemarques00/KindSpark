@@ -40,11 +40,18 @@
 - Spec: `.specs/features/redesign-ui/spec.md` — Done (gate + UAT manual, 2026-05-25).
 - Comportamento MVP preservado (RF-001…RF-007); camada UI/UX + design system.
 
+## Feature em especificação — `completion-screen`
+
+- Tela de recompensa pós **"I did it"**: celebração, streak/stats, CTAs Progress/History.
+- Spec SDD: `.specs/features/completion-screen/spec.md` (+ `design.md`, `tasks.md`).
+- Fonte de produto: `.specs/features/completion-screen/completion-screen.md`.
+- Status: **Specify + Design + Tasks** concluídos — aguardando Execute.
+
 ## Pós v0.1 (backlog de produto)
 
 | Versão | Foco |
 |--------|------|
-| v0.1.1 | `redesign-ui-phase-2` — completion screen, modais, auth visual |
+| v0.1.1 | `completion-screen` (Execute) + modais restantes + auth visual |
 | v0.2 | Sugestões enviadas por usuários, curadoria, categorias |
 | v0.3 | IA para ideias e personalização |
 | v0.4 | Social sharing, comunidade, votação |

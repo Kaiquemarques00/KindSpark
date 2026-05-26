@@ -10,6 +10,10 @@ export type AnalyticsEvent =
   | 'notification_enabled'
   | 'notification_disabled'
   | 'notification_opened'
-  | 'offline_sync_completed';
+  | 'offline_sync_completed'
+  | 'completion_screen_shown'
+  | 'completion_screen_dismissed'
+  | 'completion_cta_progress'
+  | 'completion_cta_history';
 
 export type AnalyticsProperties = Record<string, string | number | boolean | null | undefined>;
