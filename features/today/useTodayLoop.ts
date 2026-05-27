@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useCallback, useState } from 'react';
 
 import { trackEvent } from '@/lib/analytics';
@@ -24,6 +25,16 @@ import {
 } from '@/lib/supabase';
 
 export type TodayBusyAction = 'load' | 'done' | 'skip' | 'refresh' | null;
+
+function navigateToCompletionScreen(actionDate: string, offline: boolean) {
+  router.push({
+    pathname: '/completion',
+    params: {
+      actionDate,
+      offline: String(offline),
+    },
+  });
+}
 
 async function resolveSuggestionSkipped(
   actionId: string,
@@ -164,6 +175,7 @@ export function useTodayLoop() {
       setIsOffline(true);
       trackEvent('action_done', { offline: true, action_date: today });
       setBusy(null);
+      navigateToCompletionScreen(today, true);
       return;
     }
 
@@ -185,6 +197,7 @@ export function useTodayLoop() {
         setIsOffline(true);
         trackEvent('action_done', { offline: true, action_date: today });
         setBusy(null);
+        navigateToCompletionScreen(today, true);
         return;
       }
       setError(doneError.message);
@@ -199,7 +212,10 @@ export function useTodayLoop() {
 
     if (alreadyDone) {
       setError('You already logged kindness for today.');
+      return;
     }
+
+    navigateToCompletionScreen(today, false);
   }, [suggestion, today, todayDone, currentSuggestionSkipped]);
 
   const handleSkip = useCallback(async () => {

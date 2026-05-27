@@ -7,7 +7,6 @@ import {
   AdBannerShell,
   AppText,
   Button,
-  Card,
   ScreenShell,
   StreakBadge,
 } from '@/components/ui';
@@ -75,17 +74,6 @@ export function TodayScreen() {
 
       {loading ? (
         <ActivityIndicator size="large" color={colors.ctaEnd} style={styles.loader} />
-      ) : null}
-
-      {!loading && isCompleted ? (
-        <Card style={styles.completedCard}>
-          <AppText variant="cardTitle" style={styles.centered}>
-            {copy.today.completedTitle}
-          </AppText>
-          <AppText variant="bodySecondary" style={styles.centered}>
-            {copy.today.completedSubtitle}
-          </AppText>
-        </Card>
       ) : null}
 
       {!loading && !isCompleted && suggestion ? (
@@ -174,10 +162,6 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginVertical: spacing[6],
-  },
-  completedCard: {
-    padding: spacing[5],
-    gap: spacing[2],
   },
   actions: {
     gap: spacing[3],

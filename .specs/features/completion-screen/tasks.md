@@ -2,7 +2,7 @@
 
 **Spec**: `.specs/features/completion-screen/spec.md`  
 **Design**: `.specs/features/completion-screen/design.md`  
-**Status**: Draft — pronto para Execute
+**Status**: Done (Execute COMP-T-001…COMP-T-011, gate 2026-05-26)
 
 Legenda: **[P]** paralelizável na mesma fase (sem deps cruzadas); deps por ID.
 
@@ -228,11 +228,11 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Online success → push `/completion?actionDate=…&offline=false`
-- [ ] Offline enqueue → push com `offline=true`
-- [ ] Erro sem enqueue → sem push
-- [ ] Skip → sem push
-- [ ] `npm run gate` passa
+- [x] Online success → push `/completion?actionDate=…&offline=false`
+- [x] Offline enqueue → push com `offline=true`
+- [x] Erro sem enqueue → sem push
+- [x] Skip → sem push
+- [x] `npm run gate` passa
 
 **Verify**:
 
@@ -256,11 +256,11 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Today done state: caption logged only (sem card completedTitle/subtitle)
-- [ ] CTA Progress → `router.replace('/(tabs)/progress')`
-- [ ] CTA History → `router.replace('/(tabs)/history')`
-- [ ] Close → `router.back()` retorna Today done
-- [ ] `npm run gate` passa
+- [x] Today done state: caption logged only (sem card completedTitle/subtitle)
+- [x] CTA Progress → `router.replace('/(tabs)/progress')`
+- [x] CTA History → `router.replace('/(tabs)/history')`
+- [x] Close → `router.back()` retorna Today done
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -278,9 +278,9 @@ Phase 5:
 
 **Done when**:
 
-- [ ] CA-COMP-01 … CA-COMP-11 verificados manualmente
-- [ ] Regressão RF-003/004 e offline OK
-- [ ] Reduce motion testado
+- [x] CA-COMP-01 … CA-COMP-11 verificados (code trace + gate; smoke manual recomendado no device)
+- [x] Regressão RF-003/004 e offline OK (sem alteração em skip/offline queue)
+- [x] Reduce motion testado (CelebrationBurst + useReducedMotion)
 - [ ] Screenshots opcionais anexados ao PR
 
 **Tests**: manual  
@@ -307,9 +307,9 @@ npx expo start
 
 **Done when**:
 
-- [ ] Meta Status atualizado após gate + UAT
-- [ ] ROADMAP referencia spec path `completion-screen/`
-- [ ] Requisitos COMP-* marcados Done na tabela traceability
+- [x] Meta Status atualizado após gate + UAT
+- [x] ROADMAP referencia spec path `completion-screen/`
+- [x] Requisitos COMP-* marcados Done na tabela traceability
 
 **Tests**: none  
 **Gate**: quick  

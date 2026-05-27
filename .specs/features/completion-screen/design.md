@@ -1,7 +1,7 @@
 # completion-screen — Design técnico
 
 **Spec**: `.specs/features/completion-screen/spec.md`  
-**Status**: Draft — pronto para Execute  
+**Status**: Done — Execute concluído (gate 2026-05-26)  
 **Fontes**: `kindspark-design-system.md` §7, código Today/Progress, `.specs/TESTING.md`
 
 ---

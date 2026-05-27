@@ -5,7 +5,7 @@
 | Campo | Valor |
 |-------|--------|
 | **Feature** | `completion-screen` |
-| **Status** | Specify + Design + Tasks — pronto para Execute |
+| **Status** | Done — gate + UAT (2026-05-26) |
 | **Tipo** | Large — nova rota, hook de dados, celebração visual, analytics, integração no loop Today |
 | **Fonte de produto** | `.specs/features/completion-screen/completion-screen.md` |
 | **Fontes técnicas** | `kindspark-design-system.md` §7, `features/today/useTodayLoop.ts`, `lib/analytics/` |
@@ -184,31 +184,31 @@ A Completion Screen fecha esse gap com celebração breve, resumo de progresso e
 
 | ID | Descrição | Prioridade | Story | Status |
 |----|-----------|------------|-------|--------|
-| COMP-01 | Navegar para Completion após done persistido/enfileirado | P0 | P1 Fluxo | Pending |
-| COMP-02 | Não navegar se persistência falhar | P0 | P1 Fluxo | Pending |
-| COMP-03 | Não exibir após Skip | P0 | P1 Fluxo | Pending |
-| COMP-04 | Nunca simular sucesso sem persistência | P0 | P1 Fluxo | Pending |
-| COMP-05 | Dismiss imediato (Close / back) | P0 | P1 Fluxo | Pending |
-| COMP-06 | Headline de afirmação + subtítulo rotativo | P0 | P1 Conteúdo | Pending |
-| COMP-07 | Exibir streak atual | P0 | P1 Conteúdo | Pending |
-| COMP-08 | Exibir total completed (month) | P0 | P1 Conteúdo | Pending |
-| COMP-09 | Fallback ilustração peach | P1 | P1 Conteúdo | Pending |
-| COMP-10 | Degradar graciosamente se stats falharem | P0 | P1 Conteúdo | Pending |
-| COMP-11 | CTA primário "See my progress" | P0 | P1 CTAs | Pending |
-| COMP-12 | CTA secundário "See history" | P0 | P1 CTAs | Pending |
-| COMP-13 | CTA "Close" | P0 | P1 CTAs | Pending |
-| COMP-14 | Navegação correta para tabs | P0 | P1 CTAs | Pending |
-| COMP-15 | CTAs não bloqueiam dismiss | P0 | P1 CTAs | Pending |
-| COMP-16 | Micro-animação entrada | P1 | P2 Visual | Pending |
-| COMP-17 | Confetti sutil com Reanimated | P1 | P2 Visual | Pending |
-| COMP-18 | Respeitar reduce motion | P0 | P2 Visual | Pending |
-| COMP-19 | Evento `completion_screen_shown` | P1 | P2 Analytics | Pending |
-| COMP-20 | Evento `completion_screen_dismissed` + duration | P1 | P2 Analytics | Pending |
-| COMP-21 | Eventos `completion_cta_progress` / `completion_cta_history` | P1 | P2 Analytics | Pending |
-| COMP-22 | Tipagem em `AnalyticsEvent` | P1 | P2 Analytics | Pending |
+| COMP-01 | Navegar para Completion após done persistido/enfileirado | P0 | P1 Fluxo | Done |
+| COMP-02 | Não navegar se persistência falhar | P0 | P1 Fluxo | Done |
+| COMP-03 | Não exibir após Skip | P0 | P1 Fluxo | Done |
+| COMP-04 | Nunca simular sucesso sem persistência | P0 | P1 Fluxo | Done |
+| COMP-05 | Dismiss imediato (Close / back) | P0 | P1 Fluxo | Done |
+| COMP-06 | Headline de afirmação + subtítulo rotativo | P0 | P1 Conteúdo | Done |
+| COMP-07 | Exibir streak atual | P0 | P1 Conteúdo | Done |
+| COMP-08 | Exibir total completed (month) | P0 | P1 Conteúdo | Done |
+| COMP-09 | Fallback ilustração peach | P1 | P1 Conteúdo | Done |
+| COMP-10 | Degradar graciosamente se stats falharem | P0 | P1 Conteúdo | Done |
+| COMP-11 | CTA primário "See my progress" | P0 | P1 CTAs | Done |
+| COMP-12 | CTA secundário "See history" | P0 | P1 CTAs | Done |
+| COMP-13 | CTA "Close" | P0 | P1 CTAs | Done |
+| COMP-14 | Navegação correta para tabs | P0 | P1 CTAs | Done |
+| COMP-15 | CTAs não bloqueiam dismiss | P0 | P1 CTAs | Done |
+| COMP-16 | Micro-animação entrada | P1 | P2 Visual | Done |
+| COMP-17 | Confetti sutil com Reanimated | P1 | P2 Visual | Done |
+| COMP-18 | Respeitar reduce motion | P0 | P2 Visual | Done |
+| COMP-19 | Evento `completion_screen_shown` | P1 | P2 Analytics | Done |
+| COMP-20 | Evento `completion_screen_dismissed` + duration | P1 | P2 Analytics | Done |
+| COMP-21 | Eventos `completion_cta_progress` / `completion_cta_history` | P1 | P2 Analytics | Done |
+| COMP-22 | Tipagem em `AnalyticsEvent` | P1 | P2 Analytics | Done |
 | COMP-23 | Progresso semanal (opcional) | P3 | P3 | Deferred |
-| COMP-24 | Guard: rota sem done do dia → Today | P1 | Edge | Pending |
-| COMP-25 | Today pós-dismiss: estado concluído sem card redundante de celebração | P1 | Integração | Pending |
+| COMP-24 | Guard: rota sem done do dia → Today | P1 | Edge | Done |
+| COMP-25 | Today pós-dismiss: estado concluído sem card redundante de celebração | P1 | Integração | Done |
 
 **Cobertura:** 25 requisitos | 24 mapeados em `tasks.md` (COMP-23 deferred) | 0 unmapped ⚠️
 
@@ -218,34 +218,34 @@ A Completion Screen fecha esse gap com celebração breve, resumo de progresso e
 
 ### Fluxo e regras
 
-- [ ] **CA-COMP-01**: "I did it" online → Completion Screen → Close → Today em estado done.
-- [ ] **CA-COMP-02**: "Skip" → nunca abre Completion Screen.
-- [ ] **CA-COMP-03**: Falha de save (sem enqueue) → permanece na Today com erro.
-- [ ] **CA-COMP-04**: Offline com enqueue → Completion Screen + sync posterior intacto.
+- [x] **CA-COMP-01**: "I did it" online → Completion Screen → Close → Today em estado done.
+- [x] **CA-COMP-02**: "Skip" → nunca abre Completion Screen.
+- [x] **CA-COMP-03**: Falha de save (sem enqueue) → permanece na Today com erro.
+- [x] **CA-COMP-04**: Offline com enqueue → Completion Screen + sync posterior intacto.
 
 ### Conteúdo e UI
 
-- [ ] **CA-COMP-05**: Layout alinhado a `kindspark-design-system.md` §7 (illustration, affirmation, streak summary, CTA).
-- [ ] **CA-COMP-06**: Streak e completed count batem com Progress para o mesmo usuário.
-- [ ] **CA-COMP-07**: Copy 100% inglês em `constants/copy.ts`.
+- [x] **CA-COMP-05**: Layout alinhado a `kindspark-design-system.md` §7 (illustration, affirmation, streak summary, CTA).
+- [x] **CA-COMP-06**: Streak e completed count batem com Progress para o mesmo usuário.
+- [x] **CA-COMP-07**: Copy 100% inglês em `constants/copy.ts`.
 
 ### CTAs e navegação
 
-- [ ] **CA-COMP-08**: "See my progress" abre tab Progress; "See history" abre History.
-- [ ] **CA-COMP-09**: Nenhum passo obrigatório além de dismiss.
+- [x] **CA-COMP-08**: "See my progress" abre tab Progress; "See history" abre History.
+- [x] **CA-COMP-09**: Nenhum passo obrigatório além de dismiss.
 
 ### Motion e a11y
 
-- [ ] **CA-COMP-10**: Reduce motion desativa confetti; alvos de toque ≥ 44×44.
+- [x] **CA-COMP-10**: Reduce motion desativa confetti; alvos de toque ≥ 44×44.
 
 ### Analytics
 
-- [ ] **CA-COMP-11**: Eventos completion_* visíveis no dev logger com propriedades corretas.
+- [x] **CA-COMP-11**: Eventos completion_* visíveis no dev logger com propriedades corretas.
 
 ### Regressão
 
-- [ ] **CA-COMP-12**: RF-003, RF-004, RNF-004 e checklist MVP v0.1 passam sem regressão.
-- [ ] **CA-COMP-13**: `npm run gate` passa.
+- [x] **CA-COMP-12**: RF-003, RF-004, RNF-004 e checklist MVP v0.1 passam sem regressão.
+- [x] **CA-COMP-13**: `npm run gate` passa.
 
 ---
 

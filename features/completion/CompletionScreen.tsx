@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import {
   AppText,
@@ -99,70 +99,73 @@ export function CompletionScreen({ actionDate, offline = false }: CompletionScre
   }
 
   const showSummary = !loading && (streak !== null || completedCount !== null);
+  const { height: windowHeight } = useWindowDimensions();
+  const compact = Platform.OS !== 'web' && windowHeight < 720;
 
   return (
-    <ScreenShell
-      scrollable
-      contentContainerStyle={styles.content}
-    >
-      <View style={styles.heroSection}>
-        <CelebrationBurst />
-        <Illustration
-          size="onboarding"
-          placeholderIcon="sparkles"
-          accessibilityLabel="Completion celebration"
-          style={styles.illustration}
-        />
-        <AppText variant="title" style={styles.centered}>
-          {copy.completion.headline}
-        </AppText>
-        <AppText variant="bodySecondary" style={styles.centered}>
-          {subtitle}
-        </AppText>
-      </View>
+    <ScreenShell contentContainerStyle={styles.content}>
+      <View style={styles.layout}>
+        <View style={styles.heroSection}>
+          <View style={styles.burstLayer} pointerEvents="none">
+            <CelebrationBurst />
+          </View>
+          <Illustration
+            size="empty"
+            placeholderIcon="sparkles"
+            accessibilityLabel="Completion celebration"
+            style={compact ? styles.illustrationCompact : styles.illustration}
+          />
+          <AppText variant="title" style={styles.centered}>
+            {copy.completion.headline}
+          </AppText>
+          <AppText variant="bodySecondary" style={styles.centered} numberOfLines={2}>
+            {subtitle}
+          </AppText>
+        </View>
 
-      {showSummary ? (
-        <Card style={styles.summaryCard}>
-          {streak !== null ? (
-            <View style={styles.summaryRow}>
-              <View style={styles.summaryLabel}>
-                <Ionicons name="flame" size={20} color={colors.ctaEnd} />
-                <AppText variant="secondary" color={colors.textSecondary}>
-                  {copy.completion.currentStreak}
+        {showSummary ? (
+          <Card style={[styles.summaryCard, compact && styles.summaryCardCompact]}>
+            {streak !== null ? (
+              <View style={styles.summaryRow}>
+                <View style={styles.summaryLabel}>
+                  <Ionicons name="flame" size={20} color={colors.ctaEnd} />
+                  <AppText variant="secondary" color={colors.textSecondary}>
+                    {copy.completion.currentStreak}
+                  </AppText>
+                </View>
+                <AppText variant="section" color={colors.ctaEnd}>
+                  {streakDaysLabel(streak)}
                 </AppText>
               </View>
-              <AppText variant="section" color={colors.ctaEnd}>
-                {streakDaysLabel(streak)}
-              </AppText>
-            </View>
-          ) : null}
-          {completedCount !== null ? (
-            <View style={styles.summaryRow}>
-              <AppText variant="secondary" color={colors.textSecondary}>
-                {copy.completion.completedActions}
-              </AppText>
-              <AppText variant="section">{completedCount}</AppText>
-            </View>
-          ) : null}
-        </Card>
-      ) : null}
+            ) : null}
+            {completedCount !== null ? (
+              <View style={styles.summaryRow}>
+                <AppText variant="secondary" color={colors.textSecondary}>
+                  {copy.completion.completedActions}
+                </AppText>
+                <AppText variant="section">{completedCount}</AppText>
+              </View>
+            ) : null}
+          </Card>
+        ) : null}
 
-      <View style={styles.actions}>
-        <Button
-          label={copy.completion.seeProgress}
-          variant="primary"
-          onPress={handleSeeProgress}
-        />
-        <Button
-          label={copy.completion.seeHistory}
-          variant="secondary"
-          onPress={handleSeeHistory}
-        />
-        <Button
-          label={copy.completion.close}
-          variant="text"
-          onPress={handleClose}
-        />
+        <View style={styles.actions}>
+          <Button
+            label={copy.completion.seeProgress}
+            variant="primary"
+            onPress={handleSeeProgress}
+          />
+          <Button
+            label={copy.completion.seeHistory}
+            variant="secondary"
+            onPress={handleSeeHistory}
+          />
+          <Button
+            label={copy.completion.close}
+            variant="text"
+            onPress={handleClose}
+          />
+        </View>
       </View>
     </ScreenShell>
   );
@@ -170,24 +173,47 @@ export function CompletionScreen({ actionDate, offline = false }: CompletionScre
 
 const styles = StyleSheet.create({
   content: {
-    flexGrow: 1,
-    gap: spacing[4],
-    paddingBottom: spacing[6],
+    flex: 1,
+  },
+  layout: {
+    flex: 1,
+    justifyContent: 'space-between',
+    gap: spacing[3],
   },
   heroSection: {
     alignItems: 'center',
-    gap: spacing[3],
+    gap: spacing[2],
+    flexShrink: 1,
+    position: 'relative',
+  },
+  burstLayer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 72,
+    zIndex: 1,
   },
   illustration: {
-    marginTop: spacing[2],
+    marginTop: spacing[1],
+  },
+  illustrationCompact: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginTop: 0,
   },
   centered: {
     textAlign: 'center',
   },
   summaryCard: {
     backgroundColor: colors.peach,
-    padding: spacing[5],
-    gap: spacing[4],
+    padding: spacing[4],
+    gap: spacing[3],
+  },
+  summaryCardCompact: {
+    padding: spacing[3],
+    gap: spacing[2],
   },
   summaryRow: {
     flexDirection: 'row',
@@ -201,7 +227,7 @@ const styles = StyleSheet.create({
     gap: spacing[2],
   },
   actions: {
-    gap: spacing[3],
-    marginTop: spacing[2],
+    gap: spacing[2],
+    flexShrink: 0,
   },
 });
