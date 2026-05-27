@@ -12,6 +12,7 @@ import {
 } from '@/components/ui';
 import { copy } from '@/constants/copy';
 import { useAppSession } from '@/features/auth';
+import { TodayDoneSection } from '@/features/today/TodayDoneSection';
 import { useStreakBadge } from '@/features/today/useStreakBadge';
 import { useTodayLoop } from '@/features/today/useTodayLoop';
 import { getDisplayName } from '@/lib/format/display-name';
@@ -134,9 +135,7 @@ export function TodayScreen() {
       ) : null}
 
       {!loading && isCompleted && todayDone ? (
-        <AppText variant="caption" style={styles.centered}>
-          {copy.today.loggedFor} {todayDone.action_date}
-        </AppText>
+        <TodayDoneSection todayDone={todayDone} suggestion={suggestion} />
       ) : null}
 
       <AdBannerShell />
