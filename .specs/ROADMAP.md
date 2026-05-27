@@ -46,6 +46,12 @@
 - Spec SDD: `.specs/features/completion-screen/spec.md` (+ `design.md`, `tasks.md`) — Done (gate 2026-05-26).
 - Fonte de produto: `.specs/features/completion-screen/completion-screen.md`.
 
+## Feature planejada — `progress-history`
+
+- Melhorias em **Progress** (best streak, resumo semanal, heatmap, achievements leves) e **History** (filtros, paginação).
+- Spec SDD: `.specs/features/progress-history/spec.md` (+ `design.md`, `tasks.md`) — Draft (2026-05-27).
+- Fonte de produto: `.specs/features/progress-history/progress-history.md`.
+
 ## Pós v0.1 (backlog de produto)
 
 | Versão | Foco |
