@@ -12,8 +12,19 @@ export {
   refreshDailySuggestion,
   toLocalDateString,
 } from './daily-suggestion';
-export { fetchCurrentStreak, fetchDoneDates } from './streak';
-export { fetchActionHistory } from './action-history';
-export type { ActionHistoryEntry } from './action-history';
-export { fetchActionStats } from './action-stats';
+export { fetchBestStreak, fetchCurrentStreak, fetchDoneDates } from './streak';
+export {
+  fetchActionHistory,
+  HISTORY_PAGE_SIZE,
+} from './action-history';
+export type {
+  ActionHistoryEntry,
+  FetchActionHistoryParams,
+  HistoryFilter,
+} from './action-history';
+export { fetchActionStats, fetchTotalDoneCount } from './action-stats';
 export type { ActionStats, ActionStatsPeriod } from './action-stats';
+export { CALENDAR_DAYS, fetchDailyActivity } from './daily-activity';
+export type { DailyActivityCell, DayActivityStatus } from './daily-activity';
+export { fetchWeeklyDoneCount, getLocalWeekBounds } from './weekly-progress';
+export type { WeeklyProgress } from './weekly-progress';

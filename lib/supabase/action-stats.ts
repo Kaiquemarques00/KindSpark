@@ -55,3 +55,16 @@ export async function fetchActionStats(
     error: null,
   };
 }
+
+export async function fetchTotalDoneCount(): Promise<{ count: number; error: Error | null }> {
+  const { count, error } = await supabase
+    .from('user_action_logs')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'done');
+
+  if (error) {
+    return { count: 0, error };
+  }
+
+  return { count: count ?? 0, error: null };
+}

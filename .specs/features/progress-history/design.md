@@ -1,7 +1,7 @@
 # progress-history — Design técnico
 
 **Spec**: `.specs/features/progress-history/spec.md`  
-**Status**: Draft — pronto para Execute  
+**Status**: Done — implementado + gate (2026-05-27)  
 **Fontes**: código Progress/History atual, `lib/supabase/*`, `lib/streak/*`, `.specs/TESTING.md`
 
 ---
@@ -433,8 +433,8 @@ Estender `lib/analytics/events.ts`:
 
 ## Verificação de design (pré-Execute)
 
-- [ ] `fetchDoneDates` lookback suficiente para best streak ou aumentar constante
-- [ ] Paginação não quebra `keyExtractor` (`id` único)
-- [ ] Filtro + cursor resetam juntos em `setFilter`
-- [ ] `npm run gate` após implementação
-- [ ] Smoke: Completion CTAs → Progress/History com novas seções
+- [x] `fetchDoneDates` lookback suficiente para best streak ou aumentar constante
+- [x] Paginação não quebra `keyExtractor` (`id` único)
+- [x] Filtro + cursor resetam juntos em `setFilter`
+- [x] `npm run gate` após implementação
+- [x] Smoke: Completion CTAs → Progress/History com novas seções

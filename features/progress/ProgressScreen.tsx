@@ -1,20 +1,25 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
 import {
   AchievementBadge,
+  ActivityCalendar,
   AppText,
   Button,
   Card,
+  LightAchievementRow,
   ScreenShell,
   StatsRow,
 } from '@/components/ui';
 import { copy } from '@/constants/copy';
 import { useProgress } from '@/features/progress/useProgress';
+import { trackEvent } from '@/lib/analytics';
 import { getAchievementState } from '@/lib/streak/achievement-state';
+import type { LightAchievementId } from '@/lib/streak/light-achievements';
 import { STREAK_MILESTONES } from '@/lib/streak/milestones';
+import type { DayActivityStatus } from '@/lib/supabase';
 import { colors, spacing } from '@/theme/tokens';
 
 const TAB_BAR_INSET = 96;
@@ -24,17 +29,60 @@ function streakLabel(count: number): string {
   return copy.progress.streakSubtitle.replace('{n}', String(count));
 }
 
+function bestStreakLabel(count: number): string {
+  if (count === 1) return copy.progress.bestStreakOne;
+  return copy.progress.bestStreak.replace('{n}', String(count));
+}
+
+function weeklySummaryLine(doneDays: number, totalDays: number): string {
+  if (doneDays === 0) return copy.progress.weeklySummaryZero;
+  return copy.progress.weeklySummary
+    .replace('{done}', String(doneDays))
+    .replace('{total}', String(totalDays));
+}
+
 export function ProgressScreen() {
-  const { streak, busy, error, milestoneMessage, nextMilestone, stats, load } = useProgress();
+  const viewedRef = useRef(false);
+  const {
+    streak,
+    bestStreak,
+    busy,
+    error,
+    milestoneMessage,
+    nextMilestone,
+    stats,
+    weekly,
+    activity,
+    lightAchievements,
+    isEmptyJourney,
+    load,
+  } = useProgress();
 
   useFocusEffect(
     useCallback(() => {
+      if (!viewedRef.current) {
+        viewedRef.current = true;
+        trackEvent('progress_screen_viewed');
+      }
       load();
+      return () => {
+        viewedRef.current = false;
+      };
     }, [load]),
   );
 
+  const handleDayPress = useCallback((date: string, status: Exclude<DayActivityStatus, 'none'>) => {
+    trackEvent('calendar_day_tapped', { action_date: date, status });
+  }, []);
+
+  const handleAchievementPress = useCallback((id: LightAchievementId) => {
+    trackEvent('achievement_viewed', { achievement_id: id });
+  }, []);
+
   const daysLabel =
     streak === 1 ? `1 ${copy.progress.day}` : `${streak} ${copy.progress.days}`;
+
+  const showActivity = !busy && !error && activity.length > 0;
 
   return (
     <ScreenShell
@@ -61,12 +109,29 @@ export function ProgressScreen() {
           <AppText variant="bodySecondary" style={styles.centered}>
             {streak > 0 ? streakLabel(streak) : copy.progress.noStreakTitle}
           </AppText>
+          {bestStreak > 0 ? (
+            <AppText variant="caption" color={colors.textSecondary} style={styles.centered}>
+              {bestStreakLabel(bestStreak)}
+            </AppText>
+          ) : null}
         </Card>
       ) : null}
 
-      {!busy && streak === 0 && !error ? (
+      {!busy && isEmptyJourney && !error ? (
+        <AppText variant="bodySecondary" style={styles.centered}>
+          {copy.progress.emptyJourney}
+        </AppText>
+      ) : null}
+
+      {!busy && !isEmptyJourney && streak === 0 && !error ? (
         <AppText variant="bodySecondary" style={styles.centered}>
           {copy.progress.noStreakBody}
+        </AppText>
+      ) : null}
+
+      {!busy && weekly && !error ? (
+        <AppText variant="bodySecondary" style={styles.centered}>
+          {weeklySummaryLine(weekly.doneDays, weekly.totalDays)}
         </AppText>
       ) : null}
 
@@ -76,6 +141,13 @@ export function ProgressScreen() {
           skipped={stats.skipped}
           completionRate={stats.completionRate}
         />
+      ) : null}
+
+      {showActivity ? (
+        <View style={styles.section}>
+          <AppText variant="section">{copy.progress.activityTitle}</AppText>
+          <ActivityCalendar cells={activity} onDayPress={handleDayPress} />
+        </View>
       ) : null}
 
       {!busy && !error ? (
@@ -99,6 +171,16 @@ export function ProgressScreen() {
               />
             ))}
           </ScrollView>
+        </View>
+      ) : null}
+
+      {!busy && !error ? (
+        <View style={styles.section}>
+          <AppText variant="section">{copy.progress.lightAchievements.title}</AppText>
+          <LightAchievementRow
+            achievements={lightAchievements}
+            onAchievementPress={handleAchievementPress}
+          />
         </View>
       ) : null}
 
@@ -155,6 +237,9 @@ const styles = StyleSheet.create({
   },
   centered: {
     textAlign: 'center',
+  },
+  section: {
+    gap: spacing[3],
   },
   achievementsSection: {
     gap: spacing[3],

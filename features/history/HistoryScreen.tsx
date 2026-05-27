@@ -1,22 +1,49 @@
 import { useFocusEffect } from 'expo-router';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 
-import { AppText, Button, HistoryRow, Illustration, ScreenShell } from '@/components/ui';
+import {
+  AppText,
+  Button,
+  HistoryFilterBar,
+  HistoryRow,
+  Illustration,
+  ScreenShell,
+} from '@/components/ui';
 import { copy } from '@/constants/copy';
 import { useHistory } from '@/features/history/useHistory';
+import { trackEvent } from '@/lib/analytics';
 import { formatRelativeDate } from '@/lib/format/relative-date';
-import type { ActionHistoryEntry } from '@/lib/supabase/action-history';
+import type { ActionHistoryEntry } from '@/lib/supabase';
 import { colors, spacing } from '@/theme/tokens';
 
 const TAB_BAR_INSET = 96;
+const END_REACHED_THRESHOLD = 0.4;
 
 export function HistoryScreen() {
-  const { entries, busy, error, load } = useHistory();
+  const viewedRef = useRef(false);
+  const {
+    entries,
+    filter,
+    setFilter,
+    busy,
+    loadingMore,
+    error,
+    hasMore,
+    load,
+    loadMore,
+  } = useHistory();
 
   useFocusEffect(
     useCallback(() => {
+      if (!viewedRef.current) {
+        viewedRef.current = true;
+        trackEvent('history_screen_viewed');
+      }
       load();
+      return () => {
+        viewedRef.current = false;
+      };
     }, [load]),
   );
 
@@ -29,6 +56,16 @@ export function HistoryScreen() {
     />
   );
 
+  const showGlobalEmpty = !busy && !error && entries.length === 0 && filter === 'all';
+  const showFilterEmpty = !busy && !error && entries.length === 0 && filter !== 'all';
+
+  const ListFooter = () => {
+    if (loadingMore) {
+      return <ActivityIndicator size="small" color={colors.ctaEnd} style={styles.footerLoader} />;
+    }
+    return null;
+  };
+
   return (
     <ScreenShell style={styles.shell} contentContainerStyle={styles.shellContent}>
       <FlatList
@@ -37,13 +74,18 @@ export function HistoryScreen() {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+        onEndReached={() => {
+          if (hasMore) void loadMore();
+        }}
+        onEndReachedThreshold={END_REACHED_THRESHOLD}
         ListHeaderComponent={
           <View style={styles.header}>
             <AppText variant="title">{copy.history.title}</AppText>
+            <HistoryFilterBar value={filter} onChange={setFilter} />
             {busy ? (
               <ActivityIndicator size="large" color={colors.ctaEnd} style={styles.loader} />
             ) : null}
-            {!busy && entries.length === 0 && !error ? (
+            {showGlobalEmpty ? (
               <View style={styles.emptyBlock}>
                 <Illustration
                   size="empty"
@@ -55,6 +97,11 @@ export function HistoryScreen() {
                 </AppText>
               </View>
             ) : null}
+            {showFilterEmpty ? (
+              <AppText variant="bodySecondary" style={styles.empty}>
+                {copy.history.emptyFilter}
+              </AppText>
+            ) : null}
             {error ? (
               <View style={styles.errorBlock}>
                 <AppText variant="caption" color={colors.warning} style={styles.centered}>
@@ -65,6 +112,7 @@ export function HistoryScreen() {
             ) : null}
           </View>
         }
+        ListFooterComponent={entries.length > 0 ? ListFooter : null}
         contentContainerStyle={[styles.listContent, { paddingBottom: TAB_BAR_INSET }]}
         showsVerticalScrollIndicator={false}
       />
@@ -85,6 +133,9 @@ const styles = StyleSheet.create({
     paddingBottom: spacing[4],
   },
   loader: {
+    marginVertical: spacing[4],
+  },
+  footerLoader: {
     marginVertical: spacing[4],
   },
   emptyBlock: {

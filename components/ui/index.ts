@@ -1,4 +1,11 @@
 export { AchievementBadge, type AchievementBadgeState } from '@/components/ui/AchievementBadge';
+export { ActivityCalendar } from '@/components/ui/ActivityCalendar';
+export {
+  HistoryFilterBar,
+  type HistoryFilter,
+  type HistoryFilterBarProps,
+} from '@/components/ui/HistoryFilterBar';
+export { LightAchievementRow } from '@/components/ui/LightAchievementRow';
 export { ActionCard } from '@/components/ui/ActionCard';
 export { AdBannerShell } from '@/components/ui/AdBannerShell';
 export { AppText } from '@/components/ui/AppText';

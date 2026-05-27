@@ -2,7 +2,7 @@
 
 **Spec**: `.specs/features/progress-history/spec.md`  
 **Design**: `.specs/features/progress-history/design.md`  
-**Status**: Draft — pronto para Execute
+**Status**: Done — Execute + UAT (2026-05-27)
 
 Legenda: **[P]** paralelizável na mesma fase (sem deps cruzadas); deps por ID.
 
@@ -134,10 +134,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `computeBestStreak` cobre runs não consecutivos e array vazio → 0
-- [ ] `fetchBestStreak` retorna `{ best, error }`
-- [ ] Export público em `lib/supabase/index.ts`
-- [ ] `npm run gate` passa
+- [x] `computeBestStreak` cobre runs não consecutivos e array vazio → 0
+- [x] `fetchBestStreak` retorna `{ best, error }`
+- [x] Export público em `lib/supabase/index.ts`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -155,9 +155,9 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Conta dias distintos com `done` na semana até `today`
-- [ ] Retorna `{ doneDays, totalDays: 7, weekStart, weekEnd }`
-- [ ] `npm run gate` passa
+- [x] Conta dias distintos com `done` na semana até `today`
+- [x] Retorna `{ doneDays, totalDays: 7, weekStart, weekEnd }`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -175,9 +175,9 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `done` prevalece sobre `skipped` no mesmo dia
-- [ ] Array ordenado ascendente com exatamente N células (preencher `none` sem log)
-- [ ] `npm run gate` passa
+- [x] `done` prevalece sobre `skipped` no mesmo dia
+- [x] Array ordenado ascendente com exatamente N células (preencher `none` sem log)
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -195,8 +195,8 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Retorna `{ count, error }` sem mock
-- [ ] `npm run gate` passa
+- [x] Retorna `{ count, error }` sem mock
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -214,10 +214,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `HISTORY_PAGE_SIZE = 25`
-- [ ] Filtros status + 7d/30d aplicados na query
-- [ ] `loadMore` via cursor estável (`id` + `created_at`)
-- [ ] `npm run gate` passa
+- [x] `HISTORY_PAGE_SIZE = 25`
+- [x] Filtros status + 7d/30d aplicados na query
+- [x] `loadMore` via cursor estável (`id` + `created_at`)
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -235,10 +235,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Renderiza `cells` length 35
-- [ ] `onDayPress(date, status)` só em células não-`none` (ou todas com label)
-- [ ] Export em `components/ui/index.ts`
-- [ ] `npm run gate` passa
+- [x] Renderiza `cells` length 35
+- [x] `onDayPress(date, status)` só em células não-`none` (ou todas com label)
+- [x] Export em `components/ui/index.ts`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -256,9 +256,9 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Tipagem `HistoryFilter` compartilhada (re-export de action-history ou types file)
-- [ ] Touch target adequado
-- [ ] `npm run gate` passa
+- [x] Tipagem `HistoryFilter` compartilhada (re-export de action-history ou types file)
+- [x] Touch target adequado
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -276,9 +276,9 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Três ids: `first_done`, `streak_7`, `completed_30`
-- [ ] `onPress` em unlocked dispara callback para analytics
-- [ ] `npm run gate` passa
+- [x] Três ids: `first_done`, `streak_7`, `completed_30`
+- [x] `onPress` em unlocked dispara callback para analytics
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -296,8 +296,8 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Novos módulos exportados sem import circular
-- [ ] `npm run gate` passa
+- [x] Novos módulos exportados sem import circular
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -315,10 +315,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] API de retorno documentada no design
-- [ ] Falha parcial não zera streak já carregado
-- [ ] `isEmptyJourney` quando totalDone === 0
-- [ ] `npm run gate` passa
+- [x] API de retorno documentada no design
+- [x] Falha parcial não zera streak já carregado
+- [x] `isEmptyJourney` quando totalDone === 0
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -336,10 +336,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Layout scrollável com novas seções ordenadas (design.md)
-- [ ] Analytics no `useFocusEffect`
-- [ ] Empty journey copy quando `isEmptyJourney`
-- [ ] `npm run gate` passa
+- [x] Layout scrollável com novas seções ordenadas (design.md)
+- [x] Analytics no `useFocusEffect`
+- [x] Empty journey copy quando `isEmptyJourney`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -357,10 +357,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `setFilter` reseta entries e refetch
-- [ ] `loadMore` append sem duplicar ids
-- [ ] `hasMore` derivado de `nextCursor`
-- [ ] `npm run gate` passa
+- [x] `setFilter` reseta entries e refetch
+- [x] `loadMore` append sem duplicar ids
+- [x] `hasMore` derivado de `nextCursor`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -378,10 +378,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Filtros visíveis abaixo do título
-- [ ] Footer loader em `loadMore`
-- [ ] Empty states distintos (zero total vs filtro)
-- [ ] `npm run gate` passa
+- [x] Filtros visíveis abaixo do título
+- [x] Footer loader em `loadMore`
+- [x] Empty states distintos (zero total vs filtro)
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -398,10 +398,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] CA-PH-01 … CA-PH-12 verificados (device smoke)
-- [ ] `npm run gate` passa
-- [ ] Tabelas traceability Status → Done
-- [ ] ROADMAP lista feature `progress-history`
+- [x] CA-PH-01 … CA-PH-12 verificados (device smoke)
+- [x] `npm run gate` passa
+- [x] Tabelas traceability Status → Done
+- [x] ROADMAP lista feature `progress-history`
 
 **Tests**: manual  
 **Gate**: full  

@@ -5,7 +5,7 @@
 | Campo | Valor |
 |-------|--------|
 | **Feature** | `progress-history` |
-| **Status** | Draft — Specify + Design + Tasks (2026-05-27) |
+| **Status** | Done — gate + UAT (2026-05-27) |
 | **Tipo** | Large — evolução de duas tabs, novas queries read-only, heatmap, filtros, achievements leves, analytics |
 | **Fonte de produto** | `.specs/features/progress-history/progress-history.md` |
 | **Fontes técnicas** | `features/progress/*`, `features/history/*`, `lib/supabase/*`, `lib/streak/*`, `kindspark-design-system.md` |
@@ -21,13 +21,13 @@ O usuário conclui ações na Today (e na Completion Screen), mas não percebe e
 
 ## Goals
 
-- [ ] Progress mais rico: streak atual + **maior streak histórico**, stats reais, resumo semanal, heatmap/calendário, achievements leves
-- [ ] History explorável: lista cronológica com **filtros** (status + janela temporal) e **paginação** para escalar (BR-004)
-- [ ] Dados **somente** de `user_action_logs` persistidos — sem stats artificiais (BR-001, BR-002)
-- [ ] Skips visualmente distintos de concluídos (BR-003 — preservar/reforçar `HistoryRow`)
-- [ ] Empty states acolhedores para usuário novo e histórico vazio
-- [ ] Instrumentação: `progress_screen_viewed`, `history_screen_viewed`, `achievement_viewed`, `history_filter_changed`, `calendar_day_tapped`
-- [ ] Zero regressão em RF-005/RF-006 e gates do repo
+- [x] Progress mais rico: streak atual + **maior streak histórico**, stats reais, resumo semanal, heatmap/calendário, achievements leves
+- [x] History explorável: lista cronológica com **filtros** (status + janela temporal) e **paginação** para escalar (BR-004)
+- [x] Dados **somente** de `user_action_logs` persistidos — sem stats artificiais (BR-001, BR-002)
+- [x] Skips visualmente distintos de concluídos (BR-003 — preservar/reforçar `HistoryRow`)
+- [x] Empty states acolhedores para usuário novo e histórico vazio
+- [x] Instrumentação: `progress_screen_viewed`, `history_screen_viewed`, `achievement_viewed`, `history_filter_changed`, `calendar_day_tapped`
+- [x] Zero regressão em RF-005/RF-006 e gates do repo
 
 ## Out of Scope
 
@@ -221,29 +221,29 @@ O usuário conclui ações na Today (e na Completion Screen), mas não percebe e
 
 | ID | Descrição | Prioridade | Story | Status |
 |----|-----------|------------|-------|--------|
-| PH-01 | Exibir current streak (dados reais) | P0 | P1 Streak | Pending |
-| PH-02 | Exibir best (max) streak histórico | P0 | P1 Streak | Pending |
-| PH-03 | Stats: completed, skipped, completion rate (mês) | P0 | P1 Stats | Pending |
-| PH-04 | Resumo semanal "X of 7 days" | P0 | P1 Weekly | Pending |
-| PH-05 | Porcentagem semanal opcional na UI | P1 | P1 Weekly | Pending |
-| PH-06 | Heatmap/calendário done/skipped/none | P1 | P2 Calendar | Pending |
-| PH-07 | Achievements leves (first, 7d streak, 30 done) | P1 | P2 Achievements | Pending |
-| PH-08 | Empty state Progress usuário novo | P0 | Edge | Pending |
-| PH-09 | Lista History cronológica com metadados | P0 | P1 History | Pending |
-| PH-10 | Filtros: all, done, skipped, 7d, 30d | P0 | P1 History | Pending |
-| PH-11 | Skip visualmente distinto (HistoryRow) | P0 | P1 History | Pending |
-| PH-12 | Paginação / virtualização History | P0 | P1 History | Pending |
-| PH-13 | Sem stats artificiais | P0 | BR-002 | Pending |
-| PH-14 | Somente dados persistidos | P0 | BR-001 | Pending |
-| PH-15 | Fallback seguro dados inconsistentes | P0 | Edge | Pending |
-| PH-16 | Empty states History (vazio + filtro) | P0 | Edge | Pending |
-| PH-17 | Evento `progress_screen_viewed` | P1 | P2 Analytics | Pending |
-| PH-18 | Evento `history_screen_viewed` | P1 | P2 Analytics | Pending |
-| PH-19 | Evento `achievement_viewed` | P1 | P2 Analytics | Pending |
-| PH-20 | Evento `history_filter_changed` | P1 | P1 History | Pending |
-| PH-21 | Evento `calendar_day_tapped` | P1 | P2 Calendar | Pending |
-| PH-22 | Preservar milestones streak 3/7/14/30 existentes | P1 | Integração | Pending |
-| PH-23 | Copy 100% inglês novas strings | P0 | Transversal | Pending |
+| PH-01 | Exibir current streak (dados reais) | P0 | P1 Streak | Done |
+| PH-02 | Exibir best (max) streak histórico | P0 | P1 Streak | Done |
+| PH-03 | Stats: completed, skipped, completion rate (mês) | P0 | P1 Stats | Done |
+| PH-04 | Resumo semanal "X of 7 days" | P0 | P1 Weekly | Done |
+| PH-05 | Porcentagem semanal opcional na UI | P1 | P1 Weekly | Done |
+| PH-06 | Heatmap/calendário done/skipped/none | P1 | P2 Calendar | Done |
+| PH-07 | Achievements leves (first, 7d streak, 30 done) | P1 | P2 Achievements | Done |
+| PH-08 | Empty state Progress usuário novo | P0 | Edge | Done |
+| PH-09 | Lista History cronológica com metadados | P0 | P1 History | Done |
+| PH-10 | Filtros: all, done, skipped, 7d, 30d | P0 | P1 History | Done |
+| PH-11 | Skip visualmente distinto (HistoryRow) | P0 | P1 History | Done |
+| PH-12 | Paginação / virtualização History | P0 | P1 History | Done |
+| PH-13 | Sem stats artificiais | P0 | BR-002 | Done |
+| PH-14 | Somente dados persistidos | P0 | BR-001 | Done |
+| PH-15 | Fallback seguro dados inconsistentes | P0 | Edge | Done |
+| PH-16 | Empty states History (vazio + filtro) | P0 | Edge | Done |
+| PH-17 | Evento `progress_screen_viewed` | P1 | P2 Analytics | Done |
+| PH-18 | Evento `history_screen_viewed` | P1 | P2 Analytics | Done |
+| PH-19 | Evento `achievement_viewed` | P1 | P2 Analytics | Done |
+| PH-20 | Evento `history_filter_changed` | P1 | P1 History | Done |
+| PH-21 | Evento `calendar_day_tapped` | P1 | P2 Calendar | Done |
+| PH-22 | Preservar milestones streak 3/7/14/30 existentes | P1 | Integração | Done |
+| PH-23 | Copy 100% inglês novas strings | P0 | Transversal | Done |
 
 **Cobertura:** 23 requisitos | 23 mapeados em `tasks.md` | 0 unmapped ⚠️
 
@@ -253,24 +253,24 @@ O usuário conclui ações na Today (e na Completion Screen), mas não percebe e
 
 ### Progress
 
-- [ ] **CA-PH-01**: Current + best streak coerentes com logs Supabase.
-- [ ] **CA-PH-02**: StatsRow bate com `fetchActionStats('month')`.
-- [ ] **CA-PH-03**: Resumo semanal correto para semana local.
-- [ ] **CA-PH-04**: Heatmap reflete últimos N dias de logs.
-- [ ] **CA-PH-05**: Achievements leves unlock conforme regras PH-07.
-- [ ] **CA-PH-06**: Empty state novo usuário exibido sem logs.
+- [x] **CA-PH-01**: Current + best streak coerentes com logs Supabase.
+- [x] **CA-PH-02**: StatsRow bate com `fetchActionStats('month')`.
+- [x] **CA-PH-03**: Resumo semanal correto para semana local.
+- [x] **CA-PH-04**: Heatmap reflete últimos N dias de logs.
+- [x] **CA-PH-05**: Achievements leves unlock conforme regras PH-07.
+- [x] **CA-PH-06**: Empty state novo usuário exibido sem logs.
 
 ### History
 
-- [ ] **CA-PH-07**: Cinco filtros funcionam e disparam analytics.
-- [ ] **CA-PH-08**: Paginação carrega >50 itens reais.
-- [ ] **CA-PH-09**: Skip vs done visualmente distintos.
+- [x] **CA-PH-07**: Cinco filtros funcionam e disparam analytics.
+- [x] **CA-PH-08**: Paginação carrega >50 itens reais.
+- [x] **CA-PH-09**: Skip vs done visualmente distintos.
 
 ### Regressão e qualidade
 
-- [ ] **CA-PH-10**: Completion → Progress/History CTAs ainda funcionam.
-- [ ] **CA-PH-11**: `npm run gate` passa.
-- [ ] **CA-PH-12**: RF-005 e RF-006 comportamento base preservado.
+- [x] **CA-PH-10**: Completion → Progress/History CTAs ainda funcionam.
+- [x] **CA-PH-11**: `npm run gate` passa.
+- [x] **CA-PH-12**: RF-005 e RF-006 comportamento base preservado.
 
 ---
 
@@ -310,7 +310,7 @@ Medir pós-release (conforme `progress-history.md`):
 
 ## Success Criteria
 
-- [ ] Usuário identifica evolução (streak + semana + calendário) em < 10s na Progress.
-- [ ] ≥1 filtro de History usado em sessões com histórico (medir via `history_filter_changed`).
-- [ ] Zero regressões CA-PH-10…12.
-- [ ] Paridade visual warm light / tokens existentes (`theme/tokens.ts`).
+- [x] Usuário identifica evolução (streak + semana + calendário) em < 10s na Progress.
+- [ ] ≥1 filtro de History usado em sessões com histórico (medir via `history_filter_changed`) — pós-release.
+- [x] Zero regressões CA-PH-10…12.
+- [x] Paridade visual warm light / tokens existentes (`theme/tokens.ts`).
