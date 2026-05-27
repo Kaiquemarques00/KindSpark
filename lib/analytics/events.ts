@@ -14,6 +14,11 @@ export type AnalyticsEvent =
   | 'completion_screen_shown'
   | 'completion_screen_dismissed'
   | 'completion_cta_progress'
-  | 'completion_cta_history';
+  | 'completion_cta_history'
+  | 'progress_screen_viewed'
+  | 'history_screen_viewed'
+  | 'achievement_viewed'
+  | 'history_filter_changed'
+  | 'calendar_day_tapped';
 
 export type AnalyticsProperties = Record<string, string | number | boolean | null | undefined>;

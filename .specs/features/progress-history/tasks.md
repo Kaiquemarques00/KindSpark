@@ -92,11 +92,11 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `bestStreak`, `weeklySummary`, `weeklySummaryZero`, `emptyJourney`
-- [ ] `lightAchievements.*` (3 títulos + locked/unlocked labels)
-- [ ] `history.filters.*` (all, done, skipped, last7, last30)
-- [ ] `history.emptyFilter`
-- [ ] `npm run gate:quick` passa
+- [x] `bestStreak`, `weeklySummary`, `weeklySummaryZero`, `emptyJourney`
+- [x] `lightAchievements.*` (3 títulos + locked/unlocked labels)
+- [x] `history.filters.*` (all, done, skipped, last7, last30)
+- [x] `history.emptyFilter`
+- [x] `npm run gate:quick` passa
 
 **Tests**: none  
 **Gate**: quick  
@@ -114,9 +114,9 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `progress_screen_viewed`, `history_screen_viewed`, `achievement_viewed`, `history_filter_changed`, `calendar_day_tapped`
-- [ ] TypeScript compila em call sites
-- [ ] `npm run gate` passa
+- [x] `progress_screen_viewed`, `history_screen_viewed`, `achievement_viewed`, `history_filter_changed`, `calendar_day_tapped`
+- [x] TypeScript compila em call sites
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  

@@ -43,6 +43,8 @@ export function CompletionScreen({ actionDate, offline = false }: CompletionScre
   const validActionDate = isValidActionDate(actionDate);
   const { streak, completedCount, loading } = useCompletionSummary();
   const subtitle = validActionDate ? pickCelebrationMessage(actionDate) : '';
+  const { height: windowHeight } = useWindowDimensions();
+  const compact = Platform.OS !== 'web' && windowHeight < 720;
 
   const durationMs = useCallback(() => Date.now() - mountTimeRef.current, []);
 
@@ -99,8 +101,6 @@ export function CompletionScreen({ actionDate, offline = false }: CompletionScre
   }
 
   const showSummary = !loading && (streak !== null || completedCount !== null);
-  const { height: windowHeight } = useWindowDimensions();
-  const compact = Platform.OS !== 'web' && windowHeight < 720;
 
   return (
     <ScreenShell contentContainerStyle={styles.content}>
