@@ -185,10 +185,10 @@ Phase 5:
 
 **Done when**:
 
-- [ ] Layout conforme design.md (affirmation, streak, completed, 3 CTAs)
-- [ ] Guard: sem `actionDate` param → redirect `/(tabs)`
-- [ ] Touch targets ≥ 44×44 nos botões
-- [ ] `npm run gate` passa
+- [x] Layout conforme design.md (affirmation, streak, completed, 3 CTAs)
+- [x] Guard: sem `actionDate` param → redirect `/(tabs)`
+- [x] Touch targets ≥ 44×44 nos botões
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -206,11 +206,11 @@ Phase 5:
 
 **Done when**:
 
-- [ ] `shown` no mount com `action_date`, `offline`
-- [ ] `dismissed` no Close/back com `duration_ms`
-- [ ] `completion_cta_progress` / `completion_cta_history` antes de navegar
-- [ ] Dev console exibe sequência correta em smoke manual
-- [ ] `npm run gate` passa
+- [x] `shown` no mount com `action_date`, `offline`
+- [x] `dismissed` no Close/back com `duration_ms`
+- [x] `completion_cta_progress` / `completion_cta_history` antes de navegar
+- [x] Dev console exibe sequência correta em smoke manual
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
