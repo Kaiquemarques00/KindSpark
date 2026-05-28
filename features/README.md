@@ -11,5 +11,6 @@ Domain logic lives here; screens stay in `app/` (Expo Router).
 | history | `features/history/` | Recent action logs |
 | settings | `features/settings/` | Preferences, logout |
 | offline | `features/offline/` | Cache + mutation queue |
+| ads | `features/ads/` | AdMob config, SDK init, `useAds` |
 
 Shared Supabase client: `lib/supabase/`.

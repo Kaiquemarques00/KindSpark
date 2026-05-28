@@ -2,7 +2,7 @@
 
 **Spec**: `.specs/features/ads/spec.md`  
 **Design**: `.specs/features/ads/design.md`  
-**Status**: Phase 1 concluída — Phase 2 pendente (2026-05-28)
+**Status**: Phase 2 concluída — Phase 3 pendente (2026-05-28)
 
 Legenda: **[P]** paralelizável na mesma fase (sem deps cruzadas); deps por ID.
 
@@ -31,6 +31,11 @@ ADS-T-001 → ADS-T-002
 ADS-T-002 ──┬→ ADS-T-003 [P]
             └→ ADS-T-004 [P]
 ```
+
+**Phase 2**:
+
+- [x] ADS-T-003 — done
+- [x] ADS-T-004 — done
 
 ### Phase 3 — Integration (sequential)
 
@@ -97,11 +102,11 @@ ADS-T-005 → ADS-T-006
 
 **Done when**:
 
-- [ ] `AdsProvider` inicializa SDK uma vez (quando permitido)
-- [ ] `useAds()` expõe `{ enabled, ready, reason? }`
-- [ ] Defaults seguros (test ids) quando env vars ausentes
-- [ ] Export via `features/ads/index.ts`
-- [ ] `npm run gate` passa
+- [x] `AdsProvider` inicializa SDK uma vez (quando permitido)
+- [x] `useAds()` expõe `{ enabled, ready, reason? }`
+- [x] Defaults seguros (test ids) quando env vars ausentes
+- [x] Export via `features/ads/index.ts`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  
@@ -119,10 +124,10 @@ ADS-T-005 → ADS-T-006
 
 **Done when**:
 
-- [ ] Renderiza `BannerAd` quando `useAds().ready` e plataforma mobile
-- [ ] Renderiza `AdBannerShell` em web/Expo Go/disabled/not-ready
-- [ ] Export `AdBanner` em `components/ui/index.ts`
-- [ ] `npm run gate` passa
+- [x] Renderiza `BannerAd` quando `useAds().ready` e plataforma mobile
+- [x] Renderiza `AdBannerShell` em web/Expo Go/disabled/not-ready
+- [x] Export `AdBanner` em `components/ui/index.ts`
+- [x] `npm run gate` passa
 
 **Tests**: none  
 **Gate**: full  

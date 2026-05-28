@@ -48,6 +48,9 @@ Em desenvolvimento, `app.json` usa os **App IDs de teste** do Google. Para produ
 |----------|-------------|
 | `EXPO_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon (public) key |
+| `EXPO_PUBLIC_ADS_ENABLED` | Set to `false` to disable ads (default: enabled) |
+| `EXPO_PUBLIC_ADMOB_BANNER_UNIT_ID_ANDROID` | AdMob banner unit (Android); defaults to Google test ID |
+| `EXPO_PUBLIC_ADMOB_BANNER_UNIT_ID_IOS` | AdMob banner unit (iOS); defaults to Google test ID |
 
 See [supabase/README.md](supabase/README.md) for schema, migrations, and RPCs.
 
