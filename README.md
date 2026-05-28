@@ -30,6 +30,18 @@ npx expo start
 
 Press `a` / `i` for Android/iOS simulator, or scan the QR code with Expo Go.
 
+### Google Mobile Ads (banner)
+
+O SDK de anúncios (`react-native-google-mobile-ads`) é **nativo** e não funciona no Expo Go. Após alterar o plugin em `app.json`, é necessário um **dev build** (rebuild nativo):
+
+```bash
+eas build --profile development --platform android
+# ou iOS
+eas build --profile development --platform ios
+```
+
+Em desenvolvimento, `app.json` usa os **App IDs de teste** do Google. Para produção, substitua por seus App IDs reais do [AdMob](https://admob.google.com/) e rode um novo build.
+
 ### Environment variables
 
 | Variable | Description |
