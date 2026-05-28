@@ -50,22 +50,74 @@ See [supabase/README.md](supabase/README.md) for schema, migrations, and RPCs.
 | `npm run gate` | Full quality gate (lint + typecheck) — same as CI |
 | `npm run gate:quick` | Typecheck only |
 
-## EAS preview build (TestFlight / internal testing)
+## Android para testers (grátis, sem Play Store)
 
-1. Log in: `eas login`
-2. Configure the project (first time): `eas build:configure`
-3. Create a preview build:
+O perfil `preview` em [`eas.json`](eas.json) gera um **APK** que qualquer pessoa instala pelo link do Expo — sem conta Google Play.
+
+### Pré-requisitos (uma vez)
+
+1. Conta gratuita em [expo.dev/signup](https://expo.dev/signup).
+2. Supabase **na nuvem** (não `127.0.0.1`) — testers usam o celular fora da sua rede; copie URL + anon key do [dashboard Supabase](https://supabase.com/dashboard) → **Project Settings → API**.
+3. EAS CLI: `npm install -g eas-cli`
+
+### Passo a passo
+
+**1. Login no Expo**
+
+```bash
+eas login
+```
+
+**2. Vincular o projeto (só na primeira vez)**
+
+```bash
+eas init
+```
+
+Confirme criar o projeto `kindspark` no Expo. Isso adiciona `extra.eas.projectId` no `app.json` — commite essa alteração depois.
+
+**3. Variáveis de ambiente no build**
+
+No [expo.dev](https://expo.dev) → projeto **KindSpark** → **Environment variables**:
+
+| Nome | Valor |
+|------|--------|
+| `EXPO_PUBLIC_SUPABASE_URL` | `https://xxxx.supabase.co` |
+| `EXPO_PUBLIC_SUPABASE_ANON_KEY` | sua anon key |
+
+Marque o ambiente **preview** (ou **All**).
+
+**4. Gerar o APK**
 
 ```bash
 eas build --profile preview --platform android
-# or
-eas build --profile preview --platform ios
 ```
 
-4. Set `EXPO_PUBLIC_*` secrets in [Expo dashboard](https://expo.dev) → your project → **Environment variables**, or in `eas.json` env for the profile.
-5. Install the artifact from the build page (APK/IPA or store internal track).
+Na primeira vez, aceite **Generate new keystore** (fica salvo no Expo, sem custo). O build leva alguns minutos.
 
-Use the same Supabase project URL/anon key as your backend. For local-only dev, keep using `http://127.0.0.1:54321` with a tunnel or remote Supabase for device builds.
+**5. Enviar para os testers**
+
+Abra o link do terminal ou **expo.dev → Builds**. Com status **Finished**, baixe o APK ou copie o link de instalação e envie (WhatsApp, e-mail, etc.).
+
+**6. No celular do tester**
+
+1. Abrir o link no Chrome.
+2. Baixar e instalar o APK.
+3. Se bloquear: permitir instalar apps de fontes desconhecidas nas configurações.
+4. Abrir **KindSpark** e testar.
+
+### Atualizar o app
+
+Suba `"version"` em `app.json` e rode de novo `eas build --profile preview --platform android`. Envie o novo link; pode ser necessário desinstalar a versão anterior.
+
+### Custos
+
+| Item | Custo |
+|------|--------|
+| Expo + APK `preview` | R$ 0 |
+| Google Play / Apple | não usado |
+
+Use Supabase na nuvem nas env vars — `http://127.0.0.1:54321` não funciona no celular dos testers.
 
 ## Project layout
 

@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   signOut: {
-    marginTop: spacing[4],
+    marginTop: spacing[0],
+    marginBottom: spacing[6],
   },
 });

@@ -123,6 +123,7 @@ export function HistoryScreen() {
 const styles = StyleSheet.create({
   shell: {
     flex: 1,
+    paddingBottom: spacing[6],
   },
   shellContent: {
     flex: 1,

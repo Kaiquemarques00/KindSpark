@@ -2,14 +2,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { Redirect, Tabs } from 'expo-router';
 import { Platform, StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { copy } from '@/constants/copy';
 import { useAppSession } from '@/features/auth';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { duration } from '@/theme/motion';
-import { fontFamily } from '@/theme/typography';
 import { colors, radius, shadows } from '@/theme/tokens';
+import { fontFamily } from '@/theme/typography';
 
 type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
 
@@ -55,6 +56,8 @@ export default function TabLayout() {
   const { session, authLoading, onboardingComplete } = useAppSession();
   const reduceMotion = useReducedMotion();
   const transitionDuration = reduceMotion ? 0 : duration.default;
+  const insets = useSafeAreaInsets();
+  const androidBottomInset = Platform.OS === 'android' ? insets.bottom : 0;
 
   if (authLoading || (session && onboardingComplete === null)) {
     return <LoadingScreen />;
@@ -74,7 +77,15 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: colors.ctaEnd,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [
+          styles.tabBar,
+          androidBottomInset
+            ? {
+                paddingBottom: 8 + androidBottomInset,
+                height: 68 + androidBottomInset,
+              }
+            : { paddingBottom: 8 },
+        ],
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarHideOnKeyboard: true,
         sceneStyle: { backgroundColor: colors.background },

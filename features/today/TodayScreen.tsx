@@ -145,7 +145,7 @@ export function TodayScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: spacing[4],
+    gap: spacing[3],
   },
   header: {
     flexDirection: 'row',

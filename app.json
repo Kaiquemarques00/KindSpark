@@ -4,7 +4,7 @@
     "slug": "kindspark",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo-kindspark.png",
     "scheme": "kindspark",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,8 +17,9 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.kindspark.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo-kindspark.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -42,6 +43,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c90a2333-6855-4b6c-8f1d-f641258a84e4"
+      }
+    },
+    "owner": "kaiquemarques00"
   }
 }
