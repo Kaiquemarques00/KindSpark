@@ -4,7 +4,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import {
   ActionCard,
-  AdBannerShell,
+  AdBanner,
   AppText,
   Button,
   ScreenShell,
@@ -138,7 +138,7 @@ export function TodayScreen() {
         <TodayDoneSection todayDone={todayDone} suggestion={suggestion} />
       ) : null}
 
-      <AdBannerShell />
+      <AdBanner placement="today_bottom" />
     </ScreenShell>
   );
 }

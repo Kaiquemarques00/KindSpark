@@ -2,7 +2,7 @@
 
 **Spec**: `.specs/features/ads/spec.md`  
 **Design**: `.specs/features/ads/design.md`  
-**Status**: Phase 2 concluída — Phase 3 pendente (2026-05-28)
+**Status**: Phase 3 concluída — Phase 4 pendente (2026-05-28)
 
 Legenda: **[P]** paralelizável na mesma fase (sem deps cruzadas); deps por ID.
 
@@ -42,6 +42,10 @@ ADS-T-002 ──┬→ ADS-T-003 [P]
 ```
 ADS-T-003 + ADS-T-004 → ADS-T-005
 ```
+
+**Phase 3**:
+
+- [x] ADS-T-005 — done
 
 ### Phase 4 — Verify (sequential)
 
@@ -145,9 +149,9 @@ ADS-T-005 → ADS-T-006
 
 **Done when**:
 
-- [ ] Today usa `AdBanner` sem alterar layout/spacing percebido
-- [ ] Root inicializa ads via `AdsProvider`
-- [ ] `npm run gate` passa
+- [x] Today usa `AdBanner` sem alterar layout/spacing percebido
+- [x] Root inicializa ads via `AdsProvider`
+- [x] `npm run gate` passa
 
 **Tests**: manual (dev build) + gate  
 **Gate**: full  

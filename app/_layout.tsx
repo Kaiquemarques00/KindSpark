@@ -12,6 +12,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
+import { AdsProvider } from '@/features/ads';
 import { AppSessionProvider } from '@/features/auth';
 
 export { ErrorBoundary } from 'expo-router';
@@ -48,22 +49,24 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <AppSessionProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(onboarding)" />
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen
-            name="completion"
-            options={{
-              presentation: 'modal',
-              animation: 'fade',
-              headerShown: false,
-            }}
-          />
-        </Stack>
-      </ThemeProvider>
+      <AdsProvider>
+        <ThemeProvider value={DefaultTheme}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(onboarding)" />
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen
+              name="completion"
+              options={{
+                presentation: 'modal',
+                animation: 'fade',
+                headerShown: false,
+              }}
+            />
+          </Stack>
+        </ThemeProvider>
+      </AdsProvider>
     </AppSessionProvider>
   );
 }
