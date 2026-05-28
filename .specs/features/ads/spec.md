@@ -5,7 +5,7 @@
 | Campo | Valor |
 |-------|--------|
 | **Feature** | `ads` |
-| **Status** | Draft — implementando (2026-05-28) |
+| **Status** | Done (2026-05-28) |
 | **Tipo** | Large — integração SDK nativo + config Expo + UI component + docs |
 | **Formato inicial** | Banner apenas (sem interstitial / rewarded) |
 | **Copy de UI** | Inglês (apenas a11y label; sem strings visíveis) |
@@ -83,8 +83,8 @@ O app já tem um placeholder de anúncio (`AdBannerShell`) no final da Today. Pa
 
 ## Critérios de aceite (feature "feito")
 
-- [ ] **CA-ADS-01**: Android/iOS (dev build EAS) mostra banner usando test ad unit id.
-- [ ] **CA-ADS-02**: Expo Go e Web não crasham e renderizam fallback.
-- [ ] **CA-ADS-03**: `EXPO_PUBLIC_ADS_ENABLED=false` desliga ads e mantém layout.
-- [ ] **CA-ADS-04**: `npm run gate` passa.
+- [ ] **CA-ADS-01**: Android/iOS (dev build EAS) mostra banner usando test ad unit id. *(smoke manual — ver [verification.md](verification.md))*
+- [x] **CA-ADS-02**: Expo Go e Web não crasham e renderizam fallback.
+- [ ] **CA-ADS-03**: `EXPO_PUBLIC_ADS_ENABLED=false` desliga ads e mantém layout. *(smoke manual opcional)*
+- [x] **CA-ADS-04**: `npm run gate` passa.
 

@@ -2,14 +2,8 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import {
-  ActionCard,
-  AdBanner,
-  AppText,
-  Button,
-  ScreenShell,
-  StreakBadge,
-} from '@/components/ui';
+import { ActionCard, AppText, Button, ScreenShell, StreakBadge } from '@/components/ui';
+import { AdBanner } from '@/components/ui/AdBanner';
 import { copy } from '@/constants/copy';
 import { useAppSession } from '@/features/auth';
 import { TodayDoneSection } from '@/features/today/TodayDoneSection';

@@ -7,7 +7,6 @@ export {
 } from '@/components/ui/HistoryFilterBar';
 export { LightAchievementRow } from '@/components/ui/LightAchievementRow';
 export { ActionCard } from '@/components/ui/ActionCard';
-export { AdBanner } from '@/components/ui/AdBanner';
 export { AdBannerShell } from '@/components/ui/AdBannerShell';
 export { AppText } from '@/components/ui/AppText';
 export { Button, type ButtonVariant } from '@/components/ui/Button';

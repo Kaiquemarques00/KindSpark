@@ -2,7 +2,7 @@
 
 **Spec**: `.specs/features/ads/spec.md`  
 **Design**: `.specs/features/ads/design.md`  
-**Status**: Phase 3 concluída — Phase 4 pendente (2026-05-28)
+**Status**: Concluída (2026-05-28)
 
 Legenda: **[P]** paralelizável na mesma fase (sem deps cruzadas); deps por ID.
 
@@ -52,6 +52,10 @@ ADS-T-003 + ADS-T-004 → ADS-T-005
 ```
 ADS-T-005 → ADS-T-006
 ```
+
+**Phase 4**:
+
+- [x] ADS-T-006 — done
 
 ---
 
@@ -130,7 +134,7 @@ ADS-T-005 → ADS-T-006
 
 - [x] Renderiza `BannerAd` quando `useAds().ready` e plataforma mobile
 - [x] Renderiza `AdBannerShell` em web/Expo Go/disabled/not-ready
-- [x] Export `AdBanner` em `components/ui/index.ts`
+- [x] `AdBanner` exportado via `@/components/ui/AdBanner` (fora do barrel — evita carregar SDK em outras telas)
 - [x] `npm run gate` passa
 
 **Tests**: none  
@@ -169,8 +173,8 @@ ADS-T-005 → ADS-T-006
 
 **Done when**:
 
-- [ ] `npm run gate` passa
-- [ ] Checklist de smoke manual documentado
+- [x] `npm run gate` passa
+- [x] Checklist de smoke manual documentado (`.specs/features/ads/verification.md`)
 
 **Tests**: manual + gate  
 **Gate**: full  

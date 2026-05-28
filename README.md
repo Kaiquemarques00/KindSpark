@@ -35,10 +35,10 @@ Press `a` / `i` for Android/iOS simulator, or scan the QR code with Expo Go.
 O SDK de anúncios (`react-native-google-mobile-ads`) é **nativo** e não funciona no Expo Go. Após alterar o plugin em `app.json`, é necessário um **dev build** (rebuild nativo):
 
 ```bash
-eas build --profile development --platform android
-# ou iOS
-eas build --profile development --platform ios
+eas build --profile preview --platform android
 ```
+
+Smoke checklist e troca teste → produção: [.specs/features/ads/verification.md](.specs/features/ads/verification.md).
 
 Em desenvolvimento, `app.json` usa os **App IDs de teste** do Google. Para produção, substitua por seus App IDs reais do [AdMob](https://admob.google.com/) e rode um novo build.
 
@@ -157,4 +157,5 @@ Use Supabase na nuvem nas env vars — `http://127.0.0.1:54321` não funciona no
 
 - Feature spec: [.specs/features/v0.1-mvp/spec.md](.specs/features/v0.1-mvp/spec.md)
 - Tasks: [.specs/features/v0.1-mvp/tasks.md](.specs/features/v0.1-mvp/tasks.md)
+- Ads (banner): [.specs/features/ads/spec.md](.specs/features/ads/spec.md) · [verification](.specs/features/ads/verification.md)
 - Session state: [.specs/STATE.md](.specs/STATE.md)

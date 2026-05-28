@@ -1,7 +1,7 @@
 # ads — Design técnico
 
 **Spec**: `.specs/features/ads/spec.md`  
-**Status**: Draft (2026-05-28)  
+**Status**: Done (2026-05-28)  
 **Fontes**: Expo SDK 54 docs (config plugins), Invertase RN Google Mobile Ads docs, código atual `AdBannerShell`.
 
 ---
@@ -125,8 +125,8 @@ Em produção, substituir pelos App IDs reais do seu app no AdMob.
 
 ## Verification checklist
 
-- [ ] `npm run gate` passa (lint + typecheck)
-- [ ] Build dev EAS Android/iOS inicia sem crash com App IDs configurados
-- [ ] Banner aparece na Today com TestIds
-- [ ] Expo Go / Web: banner não tenta inicializar SDK e não crasha
+- [x] `npm run gate` passa (lint + typecheck)
+- [ ] Build dev EAS Android/iOS inicia sem crash com App IDs configurados *(smoke — [verification.md](verification.md))*
+- [ ] Banner aparece na Today com TestIds *(smoke)*
+- [x] Expo Go / Web: banner não tenta inicializar SDK e não crasha
 
